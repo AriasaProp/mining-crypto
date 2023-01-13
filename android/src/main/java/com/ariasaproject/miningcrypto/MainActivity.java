@@ -81,10 +81,10 @@ public class MainActivity extends Activity {
 		}
 		
 		private void checkAllSettings() {
-				String host = host_value.getText();
-				String port = Short.parseShort(port_value.getText());
-				String username = username_value.getText();
-				String password = password_value.getText();
+				String host = host_value.getText().toString();
+				String port = Short.parseShort(port_value.getText().toString());
+				String username = username_value.getText().tpString();
+				String password = password_value.getText().toString();
 				Toast.makeText(getContext(), host+" "+port+" "+username+" "+password, Toast.LENGTH_SHORT).show();
 		}
 }
