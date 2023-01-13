@@ -48,9 +48,9 @@ public class MainActivity extends Activity {
 				} catch (UnknownHostException e) {
 						host = e.getMessage();
 				} catch (Exception e) {
-					return;
+						return;
 				}
-				short port = Short.valueOf(host_value.getText().toString());
+				short port = 0;// Short.valueOf(host_value.getText().toString());
 				String username = username_value.getText().toString();
 				String password = password_value.getText().toString();
 				Toast.makeText(v.getContext(),String.format("%s:%d u:%s p:%s", host, port, username, password),Toast.LENGTH_SHORT).show();
