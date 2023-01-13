@@ -1,7 +1,7 @@
 package com.ariasaproject.miningcrypto;
 
 import android.app.Activity;
-import android.app.Bundle;
+import android.os.Bundle;
 
 public class MainActivity extends Activity {
 	
