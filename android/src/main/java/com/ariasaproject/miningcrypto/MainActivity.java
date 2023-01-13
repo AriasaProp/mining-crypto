@@ -26,6 +26,7 @@ public class MainActivity extends Activity {
 				port_value = (EditText) findViewById(R.id.port_value);
 				username_value = (EditText) findViewById(R.id.username_value);
 				password_value = (EditText) findViewById(R.id.password_value);
+				/*
 				host_value.addTextChangedListener(new TextWatcher() {
 						@Override
 						public void afterTextChanged(Editable s) {
@@ -78,6 +79,7 @@ public class MainActivity extends Activity {
 						mining_switch.setEnabled(true);
 						checkAllSettings();
 				}
+				*/
 		}
 		
 		private void checkAllSettings() {
