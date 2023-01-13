@@ -1,19 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<TableLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:orientation="vertical"
 		tools:context=".MainActivity">
-    <TextView
-    		android:id="@+id/text"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:text="Hello, I am a TextView" />
+		<TableRow
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+				<TextView
+						android:id="@+id/host_lb"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="Host : " />
+				<EditText
+						android:id="@+id/host_value"
+				    android:layout_width="match_parent"
+				    android:layout_height="wrap_content"
+				    android:inputType="textUri" />
+		</TableRow>
+		<TableRow
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+				<TextView
+						android:id="@+id/port_lb"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="Port : " />
+				<EditText
+						android:id="@+id/port_value"
+				    android:layout_width="match_parent"
+				    android:layout_height="wrap_content"
+				    android:inputType="number" />
+		</TableRow>
+		<TableRow
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+				<TextView
+						android:id="@+id/user_lb"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="Username : " />
+				<EditText
+						android:id="@+id/username_value"
+				    android:layout_width="match_parent"
+				    android:layout_height="wrap_content"
+				    android:inputType="text" />
+		</TableRow>
+		<TableRow
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+				<TextView
+						android:id="@+id/password_lb"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:text="Password : " />
+				<EditText
+						android:id="@+id/password_value"
+				    android:layout_width="match_parent"
+				    android:layout_height="wrap_content"
+				    android:inputType="password" />
+		</TableRow>
     <Button
-    		android:id="@+id/button"
+    		android:id="@+id/mining_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello, I am a Button" />
-</LinearLayout>
+        android:text="Mining Switch" />
+</TableLayout>
