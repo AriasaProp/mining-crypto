@@ -59,7 +59,7 @@
 						android:id="@+id/password_value"
 				    android:layout_width="match_parent"
 				    android:layout_height="wrap_content"
-				    android:inputType="password" />
+				    android:inputType="text" />
 		</TableRow>
     <Button
     		android:id="@+id/mining_switch"
