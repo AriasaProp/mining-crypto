@@ -86,6 +86,6 @@
     		android:id="@+id/mining_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="start_mining"
+        android:onClick="startMining()"
         android:text="Mining Start" />
 </LinearLayout>
