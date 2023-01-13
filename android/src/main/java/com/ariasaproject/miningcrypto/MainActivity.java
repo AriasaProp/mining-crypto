@@ -43,11 +43,13 @@ public class MainActivity extends Activity {
 		}
 		public void start_mining(View v) {
 				String host = host_value.getText().toString();
+				/*
 				try {
 						InetAddress.getByName(host);
 				} catch (UnknownHostException e) {
 						host = e.getMessage();
 				}
+				*/
 				short port = Short.valueOf(host_value.getText().toString());
 				String username = username_value.getText().toString();
 				String password = password_value.getText().toString();
