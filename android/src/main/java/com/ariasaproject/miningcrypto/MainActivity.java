@@ -9,8 +9,8 @@ import android.widget.EditText;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class MainActivity extends Activity {
 		final static String PREF_HOST = "Host";
@@ -41,6 +41,7 @@ public class MainActivity extends Activity {
 				}
 				*/
 		}
+		URI curURI;
 		public void startMining(View v) {
 				String host = host_value.getText().toString();
 				try {
@@ -50,10 +51,15 @@ public class MainActivity extends Activity {
 				} catch (Exception e) {
 						return;
 				}
-				short port = 0;// Short.valueOf(host_value.getText().toString());
+				short port = 8080;// Short.valueOf(host_value.getText().toString());
 				String username = username_value.getText().toString();
 				String password = password_value.getText().toString();
-				Toast.makeText(v.getContext(),String.format("%s:%d u:%s p:%s", host, port, username, password),Toast.LENGTH_SHORT).show();
+				try {
+						curURI = new URI(String.format("%s:%d",host,port));
+						Toast.makeText(v.getContext(), String.format("%s u:%s p:%s", curURI.toString(), username, password),Toast.LENGTH_SHORT).show();
+				} catch (URISyntaxException e) {
+						Toast.makeText(v.getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+				}
 		}
 		
 }
