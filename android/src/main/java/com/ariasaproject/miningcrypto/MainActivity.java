@@ -8,6 +8,9 @@ import android.widget.EditText;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 public class MainActivity extends Activity {
 		final static String PREF_HOST = "Host";
 		final static String PREF_PORT = "Port";
@@ -26,55 +29,6 @@ public class MainActivity extends Activity {
 				port_value = (EditText) findViewById(R.id.port_value);
 				username_value = (EditText) findViewById(R.id.username_value);
 				password_value = (EditText) findViewById(R.id.password_value);
-				
-				host_value.addTextChangedListener(new TextWatcher() {
-						@Override
-						public void afterTextChanged(Editable s) {
-								//check text after input
-								String host = s.toString();
-								Toast.makeText(getApplicationContext(), "Host: "+host, Toast.LENGTH_SHORT).show();
-						}
-						@Override    
-						public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-						@Override    
-						public void onTextChanged(CharSequence s, int start, int before, int count) {}
-				});
-				port_value.addTextChangedListener(new TextWatcher() {
-						@Override
-						public void afterTextChanged(Editable s) {
-								//check text after input
-								String port = s.toString();
-								Toast.makeText(getApplicationContext(), "Port: "+port, Toast.LENGTH_SHORT).show();
-						}
-						@Override    
-						public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-						@Override    
-						public void onTextChanged(CharSequence s, int start, int before, int count) {}
-				});
-				username_value.addTextChangedListener(new TextWatcher() {
-						@Override
-						public void afterTextChanged(Editable s) {
-								//check text after input
-								String username = s.toString();
-								Toast.makeText(getApplicationContext(), "Username: "+username, Toast.LENGTH_SHORT).show();
-						}
-						@Override    
-						public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-						@Override    
-						public void onTextChanged(CharSequence s, int start, int before, int count) {}
-				});
-				password_value.addTextChangedListener(new TextWatcher() {
-						@Override
-						public void afterTextChanged(Editable s) {
-								//check text after input
-								String password = s.toString();
-								Toast.makeText(getApplicationContext(), "Password: "+password, Toast.LENGTH_SHORT).show();
-						}
-						@Override    
-						public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-						@Override    
-						public void onTextChanged(CharSequence s, int start, int before, int count) {}
-				});
 				/*
 				if (b.containsKey(PREF_HOST)) {
 						host_value.setText(b.getString(PREF_HOST));
@@ -85,6 +39,23 @@ public class MainActivity extends Activity {
 						checkAllSettings();
 				}
 				*/
+		}
+		public void start_mining(View v) {
+				String host = host_value.getText().toString();
+				try {
+						InetAddress.getByName(host);
+				} catch (UnknownHostException e) {
+						host = e.getMessage();
+				}
+				short port = Short.valueOf(host_value.getText().toString());
+				String username = username_value.getText().toString();
+				String password = password_value.getText().toString();
+				Toast.makeText(getApplicationContext(),
+						"Host: "+host+
+						"\nPort: "+port+
+						"\nUsername: "+username+
+						"\nPassword: "+password
+						,Toast.LENGTH_SHORT).show();
 		}
 		
 }

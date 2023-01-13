@@ -5,7 +5,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:orientation="vertical"
-		android:padding="2.5dp"
+		android:padding="1dp"
 		tools:context=".MainActivity">
 		<LinearLayout
 				android:weightSum="1"
@@ -86,6 +86,6 @@
     		android:id="@+id/mining_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:enabled="false"
+        android:onClick="start_mining"
         android:text="Mining Start" />
 </LinearLayout>
