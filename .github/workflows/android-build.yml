@@ -3,8 +3,7 @@ name: Build & Publish Android Artifacts
 on:
   push:
     paths:
-      - 'android/**'
-      - 'core/**'
+      - 'android/revision.txt'
 
 jobs:
   build:

@@ -1,2 +1,2 @@
 include ':android'
-rootProject.name = 'mining-crypto'
+rootProject.name = 'Mining Crypto'
