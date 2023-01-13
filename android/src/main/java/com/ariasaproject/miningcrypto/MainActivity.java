@@ -24,9 +24,9 @@ public class MainActivity extends Activity {
 				mining_switch = (Button) findViewById(R.id.mining_switch);
 				host_value = (EditText) findViewById(R.id.host_value);
 				port_value = (EditText) findViewById(R.id.port_value);
-				username_value = (EditText) findViewById(R.id.user_value);
+				username_value = (EditText) findViewById(R.id.username_value);
 				password_value = (EditText) findViewById(R.id.password_value);
-				host_value.setOnTextChangedListener(new TextWatcher() {
+				host_value.addTextChangedListener(new TextWatcher() {
 						@Override
 						public void afterTextChanged(Editable s) {
 								//check text after input
@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
 						@Override    
 						public void onTextChanged(CharSequence s, int start, int before, int count) {}
 				});
-				port_value.setOnTextChangedListener(new TextWatcher() {
+				port_value.addTextChangedListener(new TextWatcher() {
 						@Override
 						public void afterTextChanged(Editable s) {
 								//check text after input
@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
 						@Override    
 						public void onTextChanged(CharSequence s, int start, int before, int count) {}
 				});
-				username_value.setOnTextChangedListener(new TextWatcher() {
+				username_value.addTextChangedListener(new TextWatcher() {
 						@Override
 						public void afterTextChanged(Editable s) {
 								//check text after input
@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
 						@Override    
 						public void onTextChanged(CharSequence s, int start, int before, int count) {}
 				});
-				password_value.setOnTextChangedListener(new TextWatcher() {
+				password_value.addTextChangedListener(new TextWatcher() {
 						@Override
 						public void afterTextChanged(Editable s) {
 								//check text after input
@@ -82,9 +82,9 @@ public class MainActivity extends Activity {
 		
 		private void checkAllSettings() {
 				String host = host_value.getText().toString();
-				String port = Short.parseShort(port_value.getText().toString());
-				String username = username_value.getText().tpString();
+				String port = port_value.getText().toString();
+				String username = username_value.getText().toString();
 				String password = password_value.getText().toString();
-				Toast.makeText(getContext(), host+" "+port+" "+username+" "+password, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), host+" "+port+" "+username+" "+password, Toast.LENGTH_SHORT).show();
 		}
 }
