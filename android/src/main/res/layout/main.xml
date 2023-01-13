@@ -8,6 +8,7 @@
 		android:padding="2.5dp"
 		tools:context=".MainActivity">
 		<LinearLayout
+				android:weightSum="1"
 				android:orientation="horizontal"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
@@ -17,10 +18,11 @@
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
 				    android:ellipsize="middle"
-				    android:text="Host: " />
+				    android:text="Host:" />
 				<EditText
 						android:id="@+id/host_value"
-				    android:layout_width="match_parent"
+				    android:layout_weight="1"
+				    android:layout_width="0dp"
 				    android:layout_height="wrap_content"
 				    android:hint="Ex: stratum+tcp://miningpool.org/"
 				    android:inputType="textUri">
@@ -31,7 +33,7 @@
 						android:textStyle="bold"
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
-				    android:text="Port: " />
+				    android:text="Port:" />
 				<EditText
 						android:id="@+id/port_value"
 				    android:layout_width="wrap_content"
@@ -51,7 +53,7 @@
 						android:textStyle="bold"
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
-				    android:text="Username: " />
+				    android:text="Username:" />
 				<EditText
 						android:id="@+id/username_value"
 				    android:layout_width="match_parent"
@@ -70,7 +72,7 @@
 						android:textStyle="bold"
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
-				    android:text="Password: " />
+				    android:text="Password:" />
 				<EditText
 						android:id="@+id/password_value"
 				    android:layout_width="match_parent"
