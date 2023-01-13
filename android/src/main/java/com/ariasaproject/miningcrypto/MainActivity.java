@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
 				port_value = (EditText) findViewById(R.id.port_value);
 				username_value = (EditText) findViewById(R.id.user_value);
 				password_value = (EditText) findViewById(R.id.password_value);
-				host_value.setOnTextChangedListener(new TextWatcher {
+				host_value.setOnTextChangedListener(new TextWatcher() {
 						@Override
 						public void afterTextChanged(Editable s) {
 								//check text after input
@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
 						@Override    
 						public void onTextChanged(CharSequence s, int start, int before, int count) {}
 				});
-				port_value.setOnTextChangedListener(new TextWatcher {
+				port_value.setOnTextChangedListener(new TextWatcher() {
 						@Override
 						public void afterTextChanged(Editable s) {
 								//check text after input
@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
 						@Override    
 						public void onTextChanged(CharSequence s, int start, int before, int count) {}
 				});
-				username_value.setOnTextChangedListener(new TextWatcher {
+				username_value.setOnTextChangedListener(new TextWatcher() {
 						@Override
 						public void afterTextChanged(Editable s) {
 								//check text after input
@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
 						@Override    
 						public void onTextChanged(CharSequence s, int start, int before, int count) {}
 				});
-				password_value.setOnTextChangedListener(new TextWatcher {
+				password_value.setOnTextChangedListener(new TextWatcher() {
 						@Override
 						public void afterTextChanged(Editable s) {
 								//check text after input
@@ -85,6 +85,6 @@ public class MainActivity extends Activity {
 				String port = Short.parseShort(port_value.getText());
 				String username = username_value.getText();
 				String password = password_value.getText();
-				Toast.makeText(getContext(), host+" "+port+" "+username+" "+password, Toast.LENGTH_SHORT);
+				Toast.makeText(getContext(), host+" "+port+" "+username+" "+password, Toast.LENGTH_SHORT).show();
 		}
 }
