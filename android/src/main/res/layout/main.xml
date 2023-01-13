@@ -4,6 +4,7 @@
 		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:stretchColumns="0"
 		tools:context=".MainActivity">
 		<TableRow
 				android:layout_width="match_parent"
@@ -17,7 +18,10 @@
 						android:id="@+id/host_value"
 				    android:layout_width="match_parent"
 				    android:layout_height="wrap_content"
-				    android:inputType="textUri" />
+				    android:hint="Enter mining pool host"
+				    android:inputType="textUri">
+						<requestFocus />
+				</EditText>
 		</TableRow>
 		<TableRow
 				android:layout_width="match_parent"
@@ -31,7 +35,10 @@
 						android:id="@+id/port_value"
 				    android:layout_width="match_parent"
 				    android:layout_height="wrap_content"
-				    android:inputType="number" />
+				    android:hint="Enter mining pool port"
+				    android:inputType="number">
+						<requestFocus />
+				</EditText>
 		</TableRow>
 		<TableRow
 				android:layout_width="match_parent"
@@ -45,7 +52,10 @@
 						android:id="@+id/username_value"
 				    android:layout_width="match_parent"
 				    android:layout_height="wrap_content"
-				    android:inputType="text" />
+				    android:hint="Enter mining pool username"
+				    android:inputType="text">
+						<requestFocus />
+				</EditText>
 		</TableRow>
 		<TableRow
 				android:layout_width="match_parent"
@@ -59,7 +69,10 @@
 						android:id="@+id/password_value"
 				    android:layout_width="match_parent"
 				    android:layout_height="wrap_content"
-				    android:inputType="text" />
+				    android:hint="Enter mining pool password"
+				    android:inputType="text">
+						<requestFocus />
+				</EditText>
 		</TableRow>
     <Button
     		android:id="@+id/mining_switch"
