@@ -1,82 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout
+<LinearLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:stretchColumns="0"
+		android:orientation="vertical"
+		android:padding="2.5dp"
 		tools:context=".MainActivity">
-		<TableRow
+		<LinearLayout
+				android:orientation="horizontal"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 				<TextView
 						android:id="@+id/host_lb"
+						android:textStyle="bold"
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
-				    android:text="Host : " />
+				    android:ellipsize="middle"
+				    android:text="Host: " />
 				<EditText
 						android:id="@+id/host_value"
 				    android:layout_width="match_parent"
 				    android:layout_height="wrap_content"
-				    android:hint="Enter mining pool host"
+				    android:hint="Ex: stratum+tcp://miningpool.org/"
 				    android:inputType="textUri">
 						<requestFocus />
 				</EditText>
-		</TableRow>
-		<TableRow
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
 				<TextView
 						android:id="@+id/port_lb"
+						android:textStyle="bold"
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
-				    android:text="Port : " />
+				    android:text="Port: " />
 				<EditText
 						android:id="@+id/port_value"
-				    android:layout_width="match_parent"
+				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
-				    android:hint="Enter mining pool port"
+				    android:hint="Ex: 9332"
+				    android:maxLength="6"
 				    android:inputType="number">
 						<requestFocus />
 				</EditText>
-		</TableRow>
-		<TableRow
+		</LinearLayout>
+		<LinearLayout
+				android:orientation="horizontal"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 				<TextView
 						android:id="@+id/user_lb"
+						android:textStyle="bold"
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
-				    android:text="Username : " />
+				    android:text="Username: " />
 				<EditText
 						android:id="@+id/username_value"
 				    android:layout_width="match_parent"
 				    android:layout_height="wrap_content"
-				    android:hint="Enter mining pool username"
+				    android:hint="Ex: jacob.18"
 				    android:inputType="text">
 						<requestFocus />
 				</EditText>
-		</TableRow>
-		<TableRow
+		</LinearLayout>
+		<LinearLayout
+				android:orientation="horizontal"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 				<TextView
 						android:id="@+id/password_lb"
+						android:textStyle="bold"
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
-				    android:text="Password : " />
+				    android:text="Password: " />
 				<EditText
 						android:id="@+id/password_value"
 				    android:layout_width="match_parent"
 				    android:layout_height="wrap_content"
-				    android:hint="Enter mining pool password"
+				    android:hint="Ex: 98bfk1"
 				    android:inputType="text">
 						<requestFocus />
 				</EditText>
-		</TableRow>
+		</LinearLayout>
     <Button
     		android:id="@+id/mining_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Mining Switch" />
-</TableLayout>
+        android:enabled="false"
+        android:text="Mining Start" />
+</LinearLayout>
