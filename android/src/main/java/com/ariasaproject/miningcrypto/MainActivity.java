@@ -53,12 +53,7 @@ public class MainActivity extends Activity {
 				short port = Short.valueOf(host_value.getText().toString());
 				String username = username_value.getText().toString();
 				String password = password_value.getText().toString();
-				Toast.makeText(getApplicationContext(),
-						"Host: "+host+
-						"\nPort: "+port+
-						"\nUsername: "+username+
-						"\nPassword: "+password
-						,Toast.LENGTH_SHORT).show();
+				Toast.makeText(v.getContext(),String.format("Host: %s\nPort: %d\nUsername: %s\nPassword: %s", host, port, username, password),Toast.LENGTH_SHORT).show();
 		}
 		
 }
