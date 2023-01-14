@@ -5,10 +5,10 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:orientation="vertical"
-		android:weightSum="1"
 		android:padding="1dp"
 		tools:context=".MainActivity">
 		<LinearLayout
+				android:weightSum="1"
 				android:orientation="horizontal"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
@@ -30,6 +30,7 @@
 				</EditText>
 		</LinearLayout>
 		<LinearLayout
+				android:weightSum="1"
 				android:orientation="horizontal"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
@@ -41,17 +42,13 @@
 				    android:text="Username:" />
 				<EditText
 						android:id="@+id/username_value"
-				    android:layout_width="match_parent"
+				    android:layout_weight="0.5"
+				    android:layout_width="0dp"
 				    android:layout_height="wrap_content"
 				    android:hint="Ex: jacob.18"
 				    android:inputType="text">
 						<requestFocus />
 				</EditText>
-		</LinearLayout>
-		<LinearLayout
-				android:orientation="horizontal"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
 				<TextView
 						android:id="@+id/password_lb"
 						android:textStyle="bold"
@@ -60,7 +57,8 @@
 				    android:text="Password:" />
 				<EditText
 						android:id="@+id/password_value"
-				    android:layout_width="match_parent"
+				    android:layout_weight="0.5"
+				    android:layout_width="0dp"
 				    android:layout_height="wrap_content"
 				    android:hint="Ex: 98bfk1"
 				    android:inputType="text">

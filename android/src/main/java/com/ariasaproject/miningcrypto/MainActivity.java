@@ -38,9 +38,9 @@ public class MainActivity extends Activity {
   private int[] colorsLogLvl = new int[] {
   	0xffa3a3a3, //gray low
   	0xffffffff, //white info
-  	0xff4bb543, //green succes
-  	0xffeed202, //yellow warning
-  	0xffff9494 //red error
+  	0xff00ff00, //green succes
+  	0xffffff00, //yellow warning
+  	0xffff0000 //red error
   };
 
   public void log_A(int logLvl, String t) {
@@ -70,12 +70,6 @@ public class MainActivity extends Activity {
     String password = password_value.getText().toString();
     try {
       curURI = new URI(address);
-      Toast.makeText(
-              v.getContext(),
-              String.format("uri=%s auth=%s:%s", curURI.toString(), username, password),
-              Toast.LENGTH_SHORT)
-          .show();
-      
       log_A(rm.nextInt(5), String.format("uri=%s auth=%s:%s", curURI.toString(), username, password));
     } catch (URISyntaxException e) {
       Toast.makeText(v.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
