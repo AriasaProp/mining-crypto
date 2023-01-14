@@ -44,20 +44,15 @@ public class MainActivity extends Activity {
 		URI curURI;
 		public void startMining(View v) {
 				String host = host_value.getText().toString();
-				try {
-						InetAddress.getByName(host);
-				} catch (UnknownHostException e) {
-						host = e.getMessage();
-				} catch (Exception e) {
-						return;
-				}
-				short port = 8080;// Short.valueOf(host_value.getText().toString());
+				int port = Integer.parseInt(host_value.getText().toString());
 				String username = username_value.getText().toString();
 				String password = password_value.getText().toString();
 				try {
-						curURI = new URI(String.format("%s:%d",host,port));
-						Toast.makeText(v.getContext(), String.format("%s u:%s p:%s", curURI.toString(), username, password),Toast.LENGTH_SHORT).show();
+						curURI = new URI(String.format("%s:%d/",host,port));
+						Toast.makeText(v.getContext(), String.format("%s %s:%s", curURI.toString(), username, password),Toast.LENGTH_SHORT).show();
 				} catch (URISyntaxException e) {
+						Toast.makeText(v.getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+				} catch (Exception e) {
 						Toast.makeText(v.getContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
 				}
 		}
