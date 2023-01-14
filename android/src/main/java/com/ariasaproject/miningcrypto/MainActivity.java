@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
     password_value = (EditText) findViewById(R.id.password_value);
   }
   
-  private static final DateFormat logDateFormat = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss] ");
+  private static final DateFormat logDateFormat = new SimpleDateFormat("HH:mm:ss =>");
   private int[] colorsLogLvl = new int[] {
   	0xffa3a3a3, //gray low
   	0xffffffff, //white info
@@ -50,16 +50,21 @@ public class MainActivity extends Activity {
   		logLvl = 4;
   	ViewGroup ctr = (ViewGroup) findViewById(R.id.log_container);
   	int i = 0;
-  	final int j = ctr.getChildCount()-1;
-  	TextView prev,next = (TextView)ctr.getChildAt(i);
-  	while(i < j) {
-		  prev = next;
-		  next = (TextView)ctr.getChildAt(++i);
-		  prev.setText(next.getText());
-		  prev.setTextColor(next.getCurrentTextColor());
+  	final int j = ctr.getChildCount();
+  	TextView vt = (TextView)ctr.getChildAt(i);
+  	String t1 = vt.getText().toString(), t2;
+  	int c1 = vt.getCurrentTextColor(), c2;
+  	vt.setText(logDateFormat.format(new Date()) + t);
+  	vt.setTextColor(colorsLogLvl[logLvl]);
+  	while(++i < j) {
+		  vt = (TextView)ctr.getChildAt(i);
+  		t2 = vt.getText().toString();
+  		c2 = vt.getCurrentTextColor();
+  		vt.setText(t1);
+		  vt.setTextColor(c1);
+		  t1 = t2;
+		  c1 = c2;
 		}
-	  next.setText(logDateFormat.format(new Date()) + t);
-	  next.setTextColor(colorsLogLvl[logLvl]);
   }
 
   URI curURI;
