@@ -1,0 +1,15 @@
+name: Format Java
+
+on:
+  push:
+    paths:
+    	- 'reformating.txt'
+
+jobs:
+  formatting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: axel-op/googlejavaformat-action@v3
+        with:
+          args: "--replace"
