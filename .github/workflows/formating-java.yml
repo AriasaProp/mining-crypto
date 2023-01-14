@@ -1,7 +1,7 @@
 name: Format Java
 
 on:
-	push:
+  push:
 		paths:
 			- '/reformating.txt'
 
