@@ -55,7 +55,7 @@ public class MainActivity extends Activity {
 		  prev = (TextView)ctr.getChildAt(i);
 		  next = (TextView)ctr.getChildAt(++i);
 		  prev.setText(next.getText());
-		  prev.setTextColor(next.getTextColor());
+		  prev.setTextColor(next.getCurrentTextColor());
 		}
 	  next.setText(logDateFormat.format(new Date()) + t);
 	  next.setTextColor(colorsLogLvl[logLvl]);
