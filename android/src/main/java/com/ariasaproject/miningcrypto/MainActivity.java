@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -26,6 +27,18 @@ public class MainActivity extends Activity {
     username_value = (EditText) findViewById(R.id.username_value);
     password_value = (EditText) findViewById(R.id.password_value);
   }
+  public void log_A(String t) {
+  	ViewGroup ctr = (ViewGroup) findViewById(R.id.log_container);
+  	int i = 0;
+  	final int j = ctr.getChildCount()-1;
+  	while(i < j) {
+		  final TextView prev = (TextView)ctr.getChildAt(i);
+		  final TextView next = (TextView)ctr.getChildAt(++i);
+		  prev.setText(next.getText());
+		}
+	  final TextView cur = (TextView)ctr.getChildAt(i);
+	  cur.setText(t);
+  }
 
   URI curURI;
 
@@ -40,6 +53,7 @@ public class MainActivity extends Activity {
               String.format("%s %s:%s", curURI.toString(), username, password),
               Toast.LENGTH_SHORT)
           .show();
+      log_A(String.format("%s %s:%s", curURI.toString(), username, password));
     } catch (URISyntaxException e) {
       Toast.makeText(v.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
     } catch (Exception e) {
