@@ -8,6 +8,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Random;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -28,21 +32,37 @@ public class MainActivity extends Activity {
     username_value = (EditText) findViewById(R.id.username_value);
     password_value = (EditText) findViewById(R.id.password_value);
   }
-  public void log_A(String t) {
+  
+  private static final DateFormat logDateFormat = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss] ");
+  private int[] colorsLogLvl = new int[5] {
+  	0xffa3a3a3, //gray low
+  	0xffffffff, //white info
+  	0xff4bb543, //green succes
+  	0xffeed202, //yellow warning
+  	0xffff9494 //red error
+  };
+
+  public void log_A(int logLvl, String t) {
+  	if (logLvl < 0)
+  		logLvl = 0;
+  	else if (logLvl > 4)
+  		logLvl = 4;
   	ViewGroup ctr = (ViewGroup) findViewById(R.id.log_container);
   	int i = 0;
   	final int j = ctr.getChildCount()-1;
+  	TextView prev,next;
   	while(i < j) {
-		  final TextView prev = (TextView)ctr.getChildAt(i);
-		  final TextView next = (TextView)ctr.getChildAt(++i);
+		  prev = (TextView)ctr.getChildAt(i);
+		  next = (TextView)ctr.getChildAt(++i);
 		  prev.setText(next.getText());
+		  prev.setTextColor(next.getTextColor());
 		}
-	  final TextView cur = (TextView)ctr.getChildAt(i);
-	  cur.setText(t);
+	  next.setText(logDateFormat.format(new Date()) + t);
+	  next.setTextColor(colorsLogLvl[logLvl]);
   }
 
   URI curURI;
-
+  Random rm = new Random();
   public void startMining(View v) {
     String address = uri_value.getText().toString();
     String username = username_value.getText().toString();
@@ -51,10 +71,11 @@ public class MainActivity extends Activity {
       curURI = new URI(address);
       Toast.makeText(
               v.getContext(),
-              String.format("%s %s:%s", curURI.toString(), username, password),
+              String.format("uri=%s auth=%s:%s", curURI.toString(), username, password),
               Toast.LENGTH_SHORT)
           .show();
-      log_A(String.format("%s %s:%s", curURI.toString(), username, password));
+      
+      log_A(rm.nextInt(5), String.format("uri=%s auth=%s:%s", curURI.toString(), username, password));
     } catch (URISyntaxException e) {
       Toast.makeText(v.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
     } catch (Exception e) {

@@ -41,7 +41,7 @@ public class Miner implements Observer {
   private static final DateFormat logDateFormat = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss] ");
 
   public void log(String str) {
-    System.out.println(logDateFormat.format(new Date()) + ":" + str);
+    System.out.println(logDateFormat.format(new Date()) + str);
   }
 
   public void update(Observable o, Object arg) {
