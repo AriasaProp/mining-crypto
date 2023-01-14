@@ -31,11 +31,8 @@ public class MainActivity extends Activity {
 				password_value = (EditText) findViewById(R.id.password_value);
 				if (b.containsKey(PREF_HOST)) {
 						host_value.setText(b.getString(PREF_HOST));
-						port_value.setText(String.valueOf(b.getShort(PREF_PORT)));
 						username_value.setText(b.getString(PREF_USERNAME));
 						password_value.setText(b.getString(PREF_PASSWORD));
-						mining_switch.setEnabled(true);
-						checkAllSettings();
 				}
 		}
 		URI curURI;
