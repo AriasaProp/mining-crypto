@@ -51,9 +51,9 @@ public class MainActivity extends Activity {
   	ViewGroup ctr = (ViewGroup) findViewById(R.id.log_container);
   	int i = 0;
   	final int j = ctr.getChildCount()-1;
-  	TextView prev,next;
+  	TextView prev,next = (TextView)ctr.getChildAt(i);
   	while(i < j) {
-		  prev = (TextView)ctr.getChildAt(i);
+		  prev = next;
 		  next = (TextView)ctr.getChildAt(++i);
 		  prev.setText(next.getText());
 		  prev.setTextColor(next.getCurrentTextColor());
