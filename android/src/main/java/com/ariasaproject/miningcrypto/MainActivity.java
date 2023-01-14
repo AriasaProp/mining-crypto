@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
   }
   
   private static final DateFormat logDateFormat = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss] ");
-  private int[] colorsLogLvl = new int[5] {
+  private int[] colorsLogLvl = new int[] {
   	0xffa3a3a3, //gray low
   	0xffffffff, //white info
   	0xff4bb543, //green succes
