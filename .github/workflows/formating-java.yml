@@ -9,7 +9,9 @@ jobs:
   formatting:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: axel-op/googlejavaformat-action@v3
-        with:
-          args: "--replace"
+  	- name: begin
+    	uses: actions/checkout@v3
+    - name: formating_goole
+    	uses: axel-op/googlejavaformat-action@v3
+      with:
+        args: "--replace"
