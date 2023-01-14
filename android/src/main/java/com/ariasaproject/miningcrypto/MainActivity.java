@@ -25,11 +25,6 @@ public class MainActivity extends Activity {
     uri_value = (EditText) findViewById(R.id.uri_value);
     username_value = (EditText) findViewById(R.id.username_value);
     password_value = (EditText) findViewById(R.id.password_value);
-    if (b.containsKey(PREF_URI)) {
-      uri_value.setText(b.getString(PREF_URI));
-      username_value.setText(b.getString(PREF_USERNAME));
-      password_value.setText(b.getString(PREF_PASSWORD));
-    }
   }
 
   URI curURI;
