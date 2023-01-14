@@ -2,8 +2,8 @@ name: Format Java
 
 on:
   push:
-		paths:
-			- '/reformating.txt'
+    paths:
+      - '/reformating.txt'
 
 jobs:
   formatting:
