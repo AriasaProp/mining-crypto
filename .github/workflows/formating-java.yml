@@ -3,7 +3,7 @@ name: Format Java
 on:
   push:
     paths:
-      - '/reformating.txt'
+      - 'reformating.txt'
 
 jobs:
   formatting:
