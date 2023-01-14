@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
 		URI curURI;
 		public void startMining(View v) {
 				String host = host_value.getText().toString();
-				int port = Integer.parseInt(host_value.getText().toString());
+				int port = 8080;//Integer.parseInt(host_value.getText().toString());
 				String username = username_value.getText().toString();
 				String password = password_value.getText().toString();
 				try {
