@@ -78,7 +78,7 @@ public class MainActivity extends Activity {
   boolean threadStarted = false, requestStop = false;
   //URI curURI;
   public void startstopMining(final View v) {
-  	if (m_mining_thread == null) {
+  	if (!threadStarted) {
 	  	mining_switch.setEnabled(false);
 	  	mining_switch.setText("Starting...");
 	  	m_mining_thread = new Thread(new Runnable(){
@@ -110,12 +110,12 @@ public class MainActivity extends Activity {
 			  				//afer start fully
 			  				if (!threadStarted) {
 			  					threadStarted = true;
-			  					notify();
+			  					notifyAll();
 			  				}
 			  				//on stoping
 			  				if (requestStop) {
 	  							requestStop = false;
-	  							notify();
+	  							notifyAll();
 			  					break;
 			  				}
 			  			}
