@@ -83,9 +83,11 @@ public class MainActivity extends Activity {
   		mining_switch.setText("Stoping...");
   		synchronized (this) {
   			requestStop = true;
-				while (requestStop) {
-					wait();
-				}
+  			try {
+					while (requestStop) {
+						wait();
+					}
+	  		} catch (InterruptedException e) {}
   		}
 	  	mining_switch.setText("Start");
 	  	mining_switch.setEnabled(true);
@@ -138,9 +140,11 @@ public class MainActivity extends Activity {
 	    threadStarted = false;
 	  	m_mining_thread.start();
 	  	synchronized (this) {
-	  		while(!threadStarted) {
-	  			wait();
-	  		}
+	  		try {
+		  		while(!threadStarted) {
+		  			wait();
+		  		}
+	  		} catch (InterruptedException e) {}
 	  	}
 			mining_switch.setText("Stop");
 			mining_switch.setEnabled(true);
