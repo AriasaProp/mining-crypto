@@ -75,7 +75,7 @@ public class MainActivity extends Activity implements Runnable{
 	  };
   }
   Thread m_mining_thread = null;
-  boolean volatile threadStarted = false, requestStop = false;
+  boolean threadStarted = false, requestStop = false;
   //URI curURI;
   public void startstopMining(final View v) {
   	if (m_mining_thread != null) {
