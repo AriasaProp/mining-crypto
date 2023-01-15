@@ -16,9 +16,7 @@ public class Miner implements Observer {
   MainActivity act;
   final Thread mT;
 
-  public Miner(
-  		MainActivity act,
-      String url, String auth, long scanTime, long retryPause, int nThread, double throttle) {
+  public Miner( MainActivity act, String url, String auth, long scanTime, long retryPause, int nThread, double throttle) {
     this.act = act;
     if (nThread < 1) throw new IllegalArgumentException("Invalid number of threads: " + nThread);
     if (throttle <= 0.0 || throttle > 1.0)
@@ -31,9 +29,9 @@ public class Miner implements Observer {
       throw new IllegalArgumentException("Invalid URL: " + url);
     }
     worker.addObserver(this);
-    Thread t = new Thread(worker);
-    t.setPriority(Thread.MIN_PRIORITY);
-    t.start();
+    mT = new Thread(worker);
+    mT.setPriority(Thread.MIN_PRIORITY);
+    mT.start();
     log(nThread + " miner threads started");
   }
 
