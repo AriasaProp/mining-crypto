@@ -78,61 +78,57 @@ public class MainActivity extends Activity {
   boolean threadStarted = false, requestStop = false;
   //URI curURI;
   public void startstopMining(final View v) {
-  	if (m_mining_thread != null) {
-  		mining_switch.setEnabled(false);
-  		mining_switch.setText("Stoping...");
-  		synchronized (this) {
-  			requestStop = true;
-  			try {
-					while (requestStop) {
-						wait();
-					}
-	  		} catch (InterruptedException e) {}
-  		}
-	  	mining_switch.setText("Start");
-	  	mining_switch.setEnabled(true);
-  	} else {
+  	if (m_mining_thread == null) {
 	  	mining_switch.setEnabled(false);
 	  	mining_switch.setText("Starting...");
 	  	m_mining_thread = new Thread(new Runnable(){
 			  @Override
 			  public void run() {
-			  	URI m_uri;
-					co.sendLog(ConsoleMessage.Message.DEBUG, "begin");
-		  		//get and check data
-		  		co.sendLog(ConsoleMessage.Message.DEBUG, "get and check data");
-		  		String uri, auth;
-		  		synchronized (this) {
-				    uri = uri_value.getText().toString();
-				  	auth = username_value.getText().toString()+":"+password_value.getText().toString();
-		  		}
-		  		try {
-		  			m_uri = new URI(uri);
-		  		} catch (Exception e) {
-		  			co.sendLog(ConsoleMessage.Message.ERROR, e.getMessage());
-		  			Thread.currentThread().interrupt();
-		  		}
-		  		co.sendLog(ConsoleMessage.Message.DEBUG, "check data");
-			  	//check data
-			  	int ct = 0;
-		  		while (true) {
-		  			co.sendLog(ConsoleMessage.Message.DEBUG, "work data" + (ct++));
-		  			Thread.sleep(1000);
-		  			synchronized(MainActivity.this) {
-		  				//afer start fully
-		  				if (!threadStarted) {
-		  					threadStarted = true;
-		  					notify();
-		  				}
-		  				//on stoping
-		  				if (requestStop) {
-  							requestStop = false;
-  							notify();
-		  					break;
-		  				}
-		  			}
-		  		}
-					co.sendLog(ConsoleMessage.Message.DEBUG, "ended");
+			  	try {
+				  	URI m_uri;
+						co.sendLog(ConsoleMessage.Message.DEBUG, "begin");
+			  		//get and check data
+			  		co.sendLog(ConsoleMessage.Message.DEBUG, "get and check data");
+			  		String uri, auth;
+			  		synchronized (this) {
+					    uri = uri_value.getText().toString();
+					  	auth = username_value.getText().toString()+":"+password_value.getText().toString();
+			  		}
+			  		try {
+			  			m_uri = new URI(uri);
+			  		} catch (Exception e) {
+			  			co.sendLog(ConsoleMessage.Message.ERROR, e.getMessage());
+			  			Thread.currentThread().interrupt();
+			  		}
+			  		co.sendLog(ConsoleMessage.Message.DEBUG, "check data");
+				  	//check data
+				  	int ct = 0;
+			  		while (true) {
+			  			co.sendLog(ConsoleMessage.Message.DEBUG, "work data" + (ct++));
+			  			Thread.sleep(1000);
+			  			synchronized(MainActivity.this) {
+			  				//afer start fully
+			  				if (!threadStarted) {
+			  					threadStarted = true;
+			  					notify();
+			  				}
+			  				//on stoping
+			  				if (requestStop) {
+	  							requestStop = false;
+	  							notify();
+			  					break;
+			  				}
+			  			}
+			  		}
+						co.sendLog(ConsoleMessage.Message.DEBUG, "ended");
+			  	} catch (InterruptedException e) {
+	    			threadStarted = false;
+						requestStop = false;
+						m_mining_thread = null;
+						co.sendLog(ConsoleMessage.Message.ERROR, "interupted");
+				  	mining_switch.setText("Start");
+				  	mining_switch.setEnabled(true);
+			  	}
 			  }
 	  	});
 	  	m_mining_thread.setDaemon(true);
@@ -148,6 +144,19 @@ public class MainActivity extends Activity {
 	  	}
 			mining_switch.setText("Stop");
 			mining_switch.setEnabled(true);
+  	} else {
+  		mining_switch.setEnabled(false);
+  		mining_switch.setText("Stoping...");
+  		synchronized (this) {
+  			requestStop = true;
+  			try {
+					while (requestStop) {
+						wait();
+					}
+	  		} catch (InterruptedException e) {}
+  		}
+	  	mining_switch.setText("Start");
+	  	mining_switch.setEnabled(true);
   	}
   }
 }
