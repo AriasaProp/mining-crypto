@@ -127,32 +127,32 @@ public class MainActivity extends Activity {
 						requestStop = false;
 						m_mining_thread = null;
 						co.sendLog(ConsoleMessage.Message.ERROR, "interupted");
-				  	mining_switch.setText("Start");
+				  	mining_switch.setText("Mining Start");
 				  	mining_switch.setEnabled(true);
 			  	}
 			  }
 	  	});
-	    m_mining_thread.setPriority(Thread.MIN_PRIORITY);
-	    threadStarted = false;
-	  	m_mining_thread.start();
+	    //m_mining_thread.setPriority(Thread.MIN_PRIORITY);
 	  	synchronized (this) {
-	  		try {
-		  		while(!threadStarted)
-		  			wait();
-	  		} catch (InterruptedException e) {}
+		    threadStarted = false;
 	  	}
-			mining_switch.setText("Stop");
+	  	m_mining_thread.start();
+  		try {
+	  		while(!threadStarted)
+	  			wait();
+  		} catch (InterruptedException e) {}
+			mining_switch.setText("Mining Stop");
 			mining_switch.setEnabled(true);
   	} else {
   		mining_switch.setEnabled(false);
   		mining_switch.setText("Stoping...");
   		synchronized (this) {
   			requestStop = true;
-  			try {
-					while (requestStop)
-						wait();
-	  		} catch (InterruptedException e) {}
   		}
+			try {
+				while (requestStop)
+					wait();
+  		} catch (InterruptedException e) {}
   	}
   }
 }
