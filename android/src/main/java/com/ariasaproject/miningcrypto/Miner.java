@@ -10,15 +10,11 @@ import java.util.Observer;
 
 public class Miner implements Observer {
 
-  private static final String DEFAULT_URL = "http://127.0.0.1:9332/";
-  private static final String DEFAULT_AUTH = "rpcuser:rpcpass";
-  private static final long DEFAULT_SCAN_TIME = 5000;
-  private static final long DEFAULT_RETRY_PAUSE = 30000;
-
   private Worker worker;
   private long lastWorkTime;
   private long lastWorkHashes;
   MainActivity act;
+  final Thread mT;
 
   public Miner(
   		MainActivity act,
@@ -48,38 +44,51 @@ public class Miner implements Observer {
   }
 
   public void update(Observable o, Object arg) {
-    Worker.Notification n = (Worker.Notification) arg;
-    if (n == Worker.Notification.SYSTEM_ERROR) {
-      log("System error");
-      System.exit(1);
-    } else if (n == Worker.Notification.PERMISSION_ERROR) {
-      log("Permission error");
-      System.exit(1);
-    } else if (n == Worker.Notification.AUTHENTICATION_ERROR) {
-      log("Invalid worker username or password");
-      System.exit(1);
-    } else if (n == Worker.Notification.CONNECTION_ERROR) {
-      log("Connection error, retrying in " + worker.getRetryPause() / 1000L + " seconds");
-    } else if (n == Worker.Notification.COMMUNICATION_ERROR) {
-      log("Communication error");
-    } else if (n == Worker.Notification.LONG_POLLING_FAILED) {
-      log("Long polling failed");
-    } else if (n == Worker.Notification.LONG_POLLING_ENABLED) {
-      log("Long polling activated");
-    } else if (n == Worker.Notification.NEW_BLOCK_DETECTED) {
-      log("LONGPOLL detected new block");
-    } else if (n == Worker.Notification.POW_TRUE) {
-      log("PROOF OF WORK RESULT: true (yay!!!)");
-    } else if (n == Worker.Notification.POW_FALSE) {
-      log("PROOF OF WORK RESULT: false (booooo)");
-    } else if (n == Worker.Notification.NEW_WORK) {
-      if (lastWorkTime > 0L) {
-        long hashes = worker.getHashes() - lastWorkHashes;
-        float speed = (float) hashes / Math.max(1, System.currentTimeMillis() - lastWorkTime);
-        log(String.format("%d hashes, %.2f khash/s", hashes, speed));
-      }
-      lastWorkTime = System.currentTimeMillis();
-      lastWorkHashes = worker.getHashes();
+    switch ((Worker.Notification) arg) {
+    	case SYSTEM_ERROR:
+	      act.log_A(4, "System error");
+	      mT.interrupt();
+    		break;
+    	case PERMISSION_ERROR:
+	      act.log_A(4, "Permission error");
+	      mT.interrupt();
+    		break;
+    	case AUTHENTICATION_ERROR:
+	      act.log_A(4, "Invalid worker username or password");
+	      mT.interrupt();
+    		break;
+    	case CONNECTION_ERROR:
+      	act.log_A(4, "Connection error, retrying in " + worker.getRetryPause() / 1000L + " seconds");
+    		break;
+    	case COMMUNICATION_ERROR:
+      	act.log_A(4, "Communication error");
+    		break;
+    	case LONG_POLLING_FAILED:
+      	act.log_A(3, "Long polling failed");
+    		break;
+    	case LONG_POLLING_ENABLED:
+      	act.log_A(2, "Long polling activated");
+    		break;
+    	case NEW_BLOCK_DETECTED:
+      	act.log_A(1, "LONGPOLL detected new block");
+    		break;
+    	case POW_TRUE:
+      	act.log_A(1, "PROOF OF WORK RESULT: true (yay!!!)");
+    		break;
+    	case POW_FALSE:
+      	act.log_A(1, "PROOF OF WORK RESULT: false (booooo)");
+    		break;
+    	case NEW_WORK:
+    		if (lastWorkTime > 0L) {
+	        long hashes = worker.getHashes() - lastWorkHashes;
+	        float speed = (float) hashes / Math.max(1, System.currentTimeMillis() - lastWorkTime);
+	        log(String.format("%d hashes, %.2f khash/s", hashes, speed));
+	      }
+	      lastWorkTime = System.currentTimeMillis();
+	      lastWorkHashes = worker.getHashes();
+    		break;
+  		default:
+    		break;
     }
   }
 }

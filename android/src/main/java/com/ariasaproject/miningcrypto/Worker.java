@@ -41,16 +41,7 @@ public class Worker extends Observable implements Runnable {
   private HttpURLConnection lpConn = null;
   private AtomicLong hashes = new AtomicLong(0L);
 
-  public Worker(URL url, String auth, long scanMillis, long pauseMillis) {
-    this(url, auth, scanMillis, pauseMillis, Runtime.getRuntime().availableProcessors());
-  }
-
-  public Worker(URL url, String auth, long scanMillis, long pauseMillis, int nThreads) {
-    this(url, auth, scanMillis, pauseMillis, nThreads, 1.0);
-  }
-
-  public Worker(
-      URL url, String auth, long scanMillis, long pauseMillis, int nThreads, double throttle) {
+  public Worker(URL url, String auth, long scanMillis, long pauseMillis, int nThreads, double throttle) {
     this.url = url;
     this.auth = auth;
     this.scanTime = scanMillis;

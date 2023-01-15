@@ -68,29 +68,20 @@ public class MainActivity extends Activity {
   }
 
   URI curURI;
-  Random rm = new Random();
   public void startMining(View v) {
-    String address = uri_value.getText().toString();
+    String uri = uri_value.getText().toString();
     String username = username_value.getText().toString();
     String password = password_value.getText().toString();
-    /*try {
-      curURI = new URI(address);
-      log_A(rm.nextInt(5), String.format("uri=%s auth=%s:%s", curURI.toString(), username, password));
-    } catch (URISyntaxException e) {
-      Toast.makeText(v.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-    } catch (Exception e) {
-      Toast.makeText(v.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-    }*/
 
-    String url = address;
     String auth = String.format("%s:%s",username,password);
     int nThread = 1;
     double throttle = 1.0d;
-    long scanTime = 500L;
-    long retryPause = 500L;
+    long scanTime = 5000L;
+    long retryPause = 30000L;
 
     try {
-    	new Miner(this, url, auth, scanTime, retryPause, nThread, throttle);
+    	new Miner(this, uri, auth, scanTime, retryPause, nThread, throttle);
+    	
     } catch (Exception e) {
     	log_A(4, e.getMessage());
     }
