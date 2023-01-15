@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class MainActivity extends Activity implements Runnable{
+public class MainActivity extends Activity {
   static final String PREF_URI = "Uri";
   static final String PREF_USERNAME = "Username";
   static final String PREF_PASSWORD = "Password";
