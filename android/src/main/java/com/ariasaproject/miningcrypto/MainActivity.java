@@ -96,7 +96,7 @@ public class MainActivity extends Activity implements Runnable{
   			co.sendLog(ConsoleMessage.Message.DEBUG, "work data" +ct);
   			Thread.sleep(2000);
   		}
-  	} catch (InterruptException e) {
+  	} catch (InterruptedException e) {
   		//interupted by system to stop thread
   		co.sendLog(ConsoleMessage.Message.ERROR, "interupted");
   	}
