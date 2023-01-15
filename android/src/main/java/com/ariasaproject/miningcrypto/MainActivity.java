@@ -96,5 +96,6 @@ public class MainActivity extends Activity {
   			mining_switch.setEnabled(true);
   		}
   	});
+  	m_mining_thread.start();
   }
 }
