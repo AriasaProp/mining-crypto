@@ -64,7 +64,7 @@ public class MainActivity extends Activity implements Runnable{
 				  c1 = c2;
 				}
 	  	}
-	  });
+	  };
   }
   
   //URI curURI;
@@ -87,7 +87,7 @@ public class MainActivity extends Activity implements Runnable{
   			m_uri = new URI(uri);
   		} catch (Exception e) {
   			co.sendLog(4, e.getMessage());
-  			Thread.currentThread().interrupt()
+  			Thread.currentThread().interrupt();
   		}
   		co.sendLog(0, "check data");
 	  	//check data
