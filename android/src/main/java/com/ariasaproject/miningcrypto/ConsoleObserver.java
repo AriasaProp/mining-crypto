@@ -1,14 +1,14 @@
 package com.ariasaproject.miningcrypto;
 
 public class ConsoleObserver {
-	final ConsoleListener reciever;
+	final ConsoleListener getter;
 	
 	public ConsoleObserver(ConsoleListener r) {
-		receiver = r;
+		getter = r;
 	}
 	
 	public void sendLog(int lvl, String msg) {
-		reciever.receiveLog(lvl,msg);
+		getter.receiveLog(lvl,msg);
 	}
 	
 	public static interface ConsoleListener {

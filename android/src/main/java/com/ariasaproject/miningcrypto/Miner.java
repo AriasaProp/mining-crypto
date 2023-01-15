@@ -24,7 +24,7 @@ public class Miner implements Observer {
     if (scanTime < 1L) throw new IllegalArgumentException("Invalid scan time: " + scanTime);
     if (retryPause < 0L) throw new IllegalArgumentException("Invalid retry pause: " + retryPause);
     try {
-      worker = new Worker(new URL(url), auth, scanTime, retryPause, nThread, throttle);
+      worker = new Worker(co, new URL(url), auth, scanTime, retryPause, nThread, throttle);
     } catch (MalformedURLException e) {
       throw new IllegalArgumentException("Invalid URL: " + url);
     }
@@ -32,7 +32,7 @@ public class Miner implements Observer {
     mT = new Thread(worker);
     mT.setPriority(Thread.MIN_PRIORITY);
     mT.start();
-    log(nThread + " miner threads started");
+    co.sendlog(0, nThread + " miner threads started");
   }
 
   private static final DateFormat logDateFormat = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss] ");
