@@ -43,7 +43,7 @@ public class MainActivity extends Activity implements Runnable{
 		  	0xffff0000 //red error
 		  };
 	  	@Override
-	  	public void sendLog(int lvl, String msg) {
+	  	public synchronized void sendLog(ConsoleMessage.Message lvl, String msg) {
 	  		if (logLvl < 0)
 		  		logLvl = 0;
 		  	else if (logLvl > 4)
@@ -72,12 +72,12 @@ public class MainActivity extends Activity implements Runnable{
   	Thread t = new Thread(this);
   }
   @Override
-  public void run () {
+  public void run() {
   	URI m_uri;
+		co.sendLog(ConsoleMessage.Message.DEBUG, "begin");
   	try {
-  		co.sendLog(0, "begin");
   		//get and check data
-  		co.sendLog(0, "get and check data");
+  		co.sendLog(ConsoleMessage.Message.DEBUG, "get and check data");
   		String uri, auth;
   		synchronized (this) {
 		    uri = uri_value.getText().toString();
@@ -86,20 +86,21 @@ public class MainActivity extends Activity implements Runnable{
   		try {
   			m_uri = new URI(uri);
   		} catch (Exception e) {
-  			co.sendLog(4, e.getMessage());
+  			co.sendLog(ConsoleMessage.Messagr.ERROR, e.getMessage());
   			Thread.currentThread().interrupt();
   		}
-  		co.sendLog(0, "check data");
+  		co.sendLog(ConsoleMessage.Message.DEBUG, "check data");
 	  	//check data
 	  	int ct = 5;
   		while ((ct--) != 0) {
-  			co.sendLog(0, "work data" +ct);
+  			co.sendLog(ConsoleMessage.Message.DEBUG, "work data" +ct);
   			Thread.sleep(2000);
   		}
   	} catch (InterruptException e) {
   		//interupted by system to stop thread
-  		co.sendLog(4, "ended");
+  		co.sendLog(ConsoleMessage.Message.ERROR, "interupted");
   	}
+		co.sendLog(ConsoleMessage.Message.DEBUG, "ended");
   }
   
 }
