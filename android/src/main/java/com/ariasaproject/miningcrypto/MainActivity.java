@@ -33,8 +33,8 @@ public class MainActivity extends Activity implements Runnable{
     password_value = (EditText) findViewById(R.id.password_value);
   	final ViewGroup ctr = (ViewGroup) findViewById(R.id.log_container);
   	final int j = ctr.getChildCount();
+	  final DateFormat logDateFormat = new SimpleDateFormat("HH:mm:ss =>");
     co = new ConsoleMessage() {
-		  private static final DateFormat logDateFormat = new SimpleDateFormat("HH:mm:ss =>");
 	  	@Override
 	  	public synchronized void sendLog(ConsoleMessage.Message lvl, String msg) {
 		  	int i = 0;
