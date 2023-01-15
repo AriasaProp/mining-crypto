@@ -23,6 +23,7 @@ public class Miner implements Observer {
   public Miner(
   		MainActivity act,
       String url, String auth, long scanTime, long retryPause, int nThread, double throttle) {
+    this.act = act;
     if (nThread < 1) throw new IllegalArgumentException("Invalid number of threads: " + nThread);
     if (throttle <= 0.0 || throttle > 1.0)
       throw new IllegalArgumentException("Invalid throttle: " + throttle);
