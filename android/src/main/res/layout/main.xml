@@ -70,7 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:onClick="startMining"
+        android:onClick="startstopMining"
         android:text="Mining Start" />
     <LinearLayout
         android:layout_weight="1"

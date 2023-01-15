@@ -36,78 +36,114 @@ public class MainActivity extends Activity implements Runnable{
 	  final DateFormat logDateFormat = new SimpleDateFormat("HH:mm:ss =>");
     co = new ConsoleMessage() {
 	  	@Override
-	  	public synchronized void sendLog(ConsoleMessage.Message lvl, String msg) {
-		  	int i = 0;
-		  	TextView vt = (TextView)ctr.getChildAt(i);
-		  	CharSequence t1 = vt.getText(), t2;
-		  	int c1 = vt.getCurrentTextColor(), c2;
-		  	vt.setText(logDateFormat.format(new Date()) + msg);
-	  		switch (lvl) {
-	  			default:
-	  			case DEBUG:
-		  			vt.setTextColor(0xffa3a3a3);
-	  				break;
-	  			case INFO:
-		  			vt.setTextColor(0xffffffff);
-	  				break;
-	  			case SUCCESS:
-		  			vt.setTextColor(0xff00ff00);
-	  				break;
-	  			case WARNING:
-		  			vt.setTextColor(0xffffff00);
-	  				break;
-	  			case ERROR:
-		  			vt.setTextColor(0xffff0000);
-	  				break;
+	  	public void sendLog(ConsoleMessage.Message lvl, String msg) {
+	  		synchronized (MainActivity.this) {
+			  	int i = 0;
+			  	TextView vt = (TextView)ctr.getChildAt(i);
+			  	CharSequence t1 = vt.getText(), t2;
+			  	int c1 = vt.getCurrentTextColor(), c2;
+			  	vt.setText(logDateFormat.format(new Date()) + msg);
+		  		switch (lvl) {
+		  			default:
+		  			case DEBUG:
+			  			vt.setTextColor(0xffa3a3a3);
+		  				break;
+		  			case INFO:
+			  			vt.setTextColor(0xffffffff);
+		  				break;
+		  			case SUCCESS:
+			  			vt.setTextColor(0xff00ff00);
+		  				break;
+		  			case WARNING:
+			  			vt.setTextColor(0xffffff00);
+		  				break;
+		  			case ERROR:
+			  			vt.setTextColor(0xffff0000);
+		  				break;
+		  		}
+			  	while(++i < j) {
+					  vt = (TextView)ctr.getChildAt(i);
+			  		t2 = vt.getText();
+			  		c2 = vt.getCurrentTextColor();
+			  		vt.setText(t1);
+					  vt.setTextColor(c1);
+					  t1 = t2;
+					  c1 = c2;
+					}
 	  		}
-		  	while(++i < j) {
-				  vt = (TextView)ctr.getChildAt(i);
-		  		t2 = vt.getText();
-		  		c2 = vt.getCurrentTextColor();
-		  		vt.setText(t1);
-				  vt.setTextColor(c1);
-				  t1 = t2;
-				  c1 = c2;
-				}
 	  	}
 	  };
   }
-  
+  Thread m_mining_thread = null;
+  boolean volatile threadStarted = false, requestStop = false;
   //URI curURI;
-  public void startMining(View v) {
-  	Thread t = new Thread(this);
-  	t.start();
-  }
-  @Override
-  public void run() {
-  	URI m_uri;
-		co.sendLog(ConsoleMessage.Message.DEBUG, "begin");
-  	try {
-  		//get and check data
-  		co.sendLog(ConsoleMessage.Message.DEBUG, "get and check data");
-  		String uri, auth;
+  public void startstopMining(final View v) {
+  	if (m_mining_thread != null) {
+  		mining_switch.setEnabled(false);
+  		mining_switch.setText("Stoping...");
   		synchronized (this) {
-		    uri = uri_value.getText().toString();
-		  	auth = username_value.getText().toString()+":"+password_value.getText().toString();
+  			requestStop = true;
+				while (requestStop) {
+					wait();
+				}
   		}
-  		try {
-  			m_uri = new URI(uri);
-  		} catch (Exception e) {
-  			co.sendLog(ConsoleMessage.Message.ERROR, e.getMessage());
-  			Thread.currentThread().interrupt();
-  		}
-  		co.sendLog(ConsoleMessage.Message.DEBUG, "check data");
-	  	//check data
-	  	int ct = 5;
-  		while ((ct--) != 0) {
-  			co.sendLog(ConsoleMessage.Message.DEBUG, "work data" +ct);
-  			Thread.sleep(2000);
-  		}
-  	} catch (InterruptedException e) {
-  		//interupted by system to stop thread
-  		co.sendLog(ConsoleMessage.Message.ERROR, "interupted");
+	  	mining_switch.setText("Start");
+	  	mining_switch.setEnabled(true);
+  	} else {
+	  	mining_switch.setEnabled(false);
+	  	mining_switch.setText("Starting...");
+	  	m_mining_thread = new Thread(new Runnable(){
+			  @Override
+			  public void run() {
+			  	URI m_uri;
+					co.sendLog(ConsoleMessage.Message.DEBUG, "begin");
+		  		//get and check data
+		  		co.sendLog(ConsoleMessage.Message.DEBUG, "get and check data");
+		  		String uri, auth;
+		  		synchronized (this) {
+				    uri = uri_value.getText().toString();
+				  	auth = username_value.getText().toString()+":"+password_value.getText().toString();
+		  		}
+		  		try {
+		  			m_uri = new URI(uri);
+		  		} catch (Exception e) {
+		  			co.sendLog(ConsoleMessage.Message.ERROR, e.getMessage());
+		  			Thread.currentThread().interrupt();
+		  		}
+		  		co.sendLog(ConsoleMessage.Message.DEBUG, "check data");
+			  	//check data
+			  	int ct = 0;
+		  		while (true) {
+		  			co.sendLog(ConsoleMessage.Message.DEBUG, "work data" + (ct++));
+		  			Thread.sleep(1000);
+		  			synchronized(MainActivity.this) {
+		  				//afer start fully
+		  				if (!threadStarted) {
+		  					threadStarted = true;
+		  					notify();
+		  				}
+		  				//on stoping
+		  				if (requestStop) {
+  							requestStop = false;
+  							notify();
+		  					break;
+		  				}
+		  			}
+		  		}
+					co.sendLog(ConsoleMessage.Message.DEBUG, "ended");
+			  }
+	  	});
+	  	m_mining_thread.setDaemon(true);
+	    m_mining_thread.setPriority(Thread.MIN_PRIORITY);
+	    threadStarted = false;
+	  	m_mining_thread.start();
+	  	synchronized (this) {
+	  		while(!threadStarted) {
+	  			wait();
+	  		}
+	  	}
+			mining_switch.setText("Stop");
+			mining_switch.setEnabled(true);
   	}
-		co.sendLog(ConsoleMessage.Message.DEBUG, "ended");
   }
-  
 }
