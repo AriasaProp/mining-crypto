@@ -35,25 +35,31 @@ public class MainActivity extends Activity implements Runnable{
   	final int j = ctr.getChildCount();
     co = new ConsoleMessage() {
 		  private static final DateFormat logDateFormat = new SimpleDateFormat("HH:mm:ss =>");
-		  private final int[] colorsLogLvl = new int[] {
-		  	0xffa3a3a3, //gray debug
-		  	0xffffffff, //white info
-		  	0xff00ff00, //green succes
-		  	0xffffff00, //yellow warning
-		  	0xffff0000 //red error
-		  };
 	  	@Override
 	  	public synchronized void sendLog(ConsoleMessage.Message lvl, String msg) {
-	  		if (logLvl < 0)
-		  		logLvl = 0;
-		  	else if (logLvl > 4)
-		  		logLvl = 4;
 		  	int i = 0;
 		  	TextView vt = (TextView)ctr.getChildAt(i);
 		  	CharSequence t1 = vt.getText(), t2;
 		  	int c1 = vt.getCurrentTextColor(), c2;
 		  	vt.setText(logDateFormat.format(new Date()) + msg);
-		  	vt.setTextColor(colorsLogLvl[logLvl]);
+	  		switch (lvl) {
+	  			default:
+	  			case DEBUG:
+		  			vt.setTextColor(0xffa3a3a3);
+	  				break;
+	  			case INFO:
+		  			vt.setTextColor(0xffffffff);
+	  				break;
+	  			case SUCCESS:
+		  			vt.setTextColor(0xff00ff00);
+	  				break;
+	  			case WARNING:
+		  			vt.setTextColor(0xffffff00);
+	  				break;
+	  			case ERROR:
+		  			vt.setTextColor(0xffff0000);
+	  				break;
+	  		}
 		  	while(++i < j) {
 				  vt = (TextView)ctr.getChildAt(i);
 		  		t2 = vt.getText();
@@ -86,7 +92,7 @@ public class MainActivity extends Activity implements Runnable{
   		try {
   			m_uri = new URI(uri);
   		} catch (Exception e) {
-  			co.sendLog(ConsoleMessage.Messagr.ERROR, e.getMessage());
+  			co.sendLog(ConsoleMessage.Message.ERROR, e.getMessage());
   			Thread.currentThread().interrupt();
   		}
   		co.sendLog(ConsoleMessage.Message.DEBUG, "check data");
