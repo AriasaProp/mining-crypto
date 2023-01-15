@@ -76,6 +76,7 @@ public class MainActivity extends Activity implements Runnable{
   //URI curURI;
   public void startMining(View v) {
   	Thread t = new Thread(this);
+  	t.start();
   }
   @Override
   public void run() {
