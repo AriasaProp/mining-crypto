@@ -113,7 +113,7 @@ public class Worker extends Observable implements Runnable {
   private synchronized Work getWork() {
     while (running) {
       try {
-        return new Work(url.openConnection(), url, auth);
+        return new Work((HttpURLConnection)url.openConnection(), url, auth);
       } catch (Exception e) {
         if (!running) break;
         setChanged();
