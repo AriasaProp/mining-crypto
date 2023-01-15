@@ -122,6 +122,7 @@ public class MainActivity extends Activity {
 			  		}
 						co.sendLog(ConsoleMessage.Message.DEBUG, "ended");
 			  	} catch (InterruptedException e) {
+			  	} finally {
 	    			threadStarted = false;
 						requestStop = false;
 						m_mining_thread = null;
@@ -131,15 +132,13 @@ public class MainActivity extends Activity {
 			  	}
 			  }
 	  	});
-	  	m_mining_thread.setDaemon(true);
 	    m_mining_thread.setPriority(Thread.MIN_PRIORITY);
 	    threadStarted = false;
 	  	m_mining_thread.start();
 	  	synchronized (this) {
 	  		try {
-		  		while(!threadStarted) {
+		  		while(!threadStarted)
 		  			wait();
-		  		}
 	  		} catch (InterruptedException e) {}
 	  	}
 			mining_switch.setText("Stop");
@@ -150,13 +149,10 @@ public class MainActivity extends Activity {
   		synchronized (this) {
   			requestStop = true;
   			try {
-					while (requestStop) {
+					while (requestStop)
 						wait();
-					}
 	  		} catch (InterruptedException e) {}
   		}
-	  	mining_switch.setText("Start");
-	  	mining_switch.setEnabled(true);
   	}
   }
 }
