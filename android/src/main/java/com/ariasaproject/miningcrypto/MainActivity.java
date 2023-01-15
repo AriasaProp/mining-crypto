@@ -73,39 +73,27 @@ public class MainActivity extends Activity {
     String address = uri_value.getText().toString();
     String username = username_value.getText().toString();
     String password = password_value.getText().toString();
-    try {
+    /*try {
       curURI = new URI(address);
       log_A(rm.nextInt(5), String.format("uri=%s auth=%s:%s", curURI.toString(), username, password));
     } catch (URISyntaxException e) {
       Toast.makeText(v.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
     } catch (Exception e) {
       Toast.makeText(v.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-    }
-    /*
-    String url = DEFAULT_URL;
-    String auth = DEFAULT_AUTH;
-    int nThread = Runtime.getRuntime().availableProcessors();
-    double throttle = 1.0;
-    long scanTime = DEFAULT_SCAN_TIME;
-    long retryPause = DEFAULT_RETRY_PAUSE;
+    }*/
 
-    if (args.length > 0 && args[0].equals("--help")) {
-    	System.out.println("Usage:  java Miner [URL] [USERNAME:PASSWORD] [THREADS] [THROTTLE] [SCANTIME] [RETRYPAUSE]");
-    	return;
-    }
-
-    if (args.length > 0) url = args[0];
-    if (args.length > 1) auth = args[1];
-    if (args.length > 2) nThread = Integer.parseInt(args[2]);
-    if (args.length > 3) throttle = Double.parseDouble(args[3]);
-    if (args.length > 4) scanTime = Integer.parseInt(args[4]) * 1000L;
-    if (args.length > 5) retryPause = Integer.parseInt(args[5]) * 1000L;
+    String url = address;
+    String auth = String.format("%s:%s",username,password);
+    int nThread = 1;
+    double throttle = 1.0d;
+    long scanTime = 500L;
+    long retryPause = 500L;
 
     try {
-    	new Miner(url, auth, scanTime, retryPause, nThread, throttle);
+    	new Miner(this, url, auth, scanTime, retryPause, nThread, throttle);
     } catch (Exception e) {
-    	System.err.println(e.getMessage());
+    	log_A(4, e.getMessage());
     }
-    */
+    
   }
 }

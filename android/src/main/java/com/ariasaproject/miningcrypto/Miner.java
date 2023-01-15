@@ -18,8 +18,10 @@ public class Miner implements Observer {
   private Worker worker;
   private long lastWorkTime;
   private long lastWorkHashes;
+  MainActivity act;
 
   public Miner(
+  		MainActivity act,
       String url, String auth, long scanTime, long retryPause, int nThread, double throttle) {
     if (nThread < 1) throw new IllegalArgumentException("Invalid number of threads: " + nThread);
     if (throttle <= 0.0 || throttle > 1.0)
@@ -41,7 +43,7 @@ public class Miner implements Observer {
   private static final DateFormat logDateFormat = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss] ");
 
   public void log(String str) {
-    System.out.println(logDateFormat.format(new Date()) + str);
+  	act.log_A(0, logDateFormat.format(new Date()) + str);
   }
 
   public void update(Observable o, Object arg) {
