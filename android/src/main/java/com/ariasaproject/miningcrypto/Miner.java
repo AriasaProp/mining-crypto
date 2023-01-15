@@ -13,11 +13,11 @@ public class Miner implements Observer {
   private Worker worker;
   private long lastWorkTime;
   private long lastWorkHashes;
-  MainActivity act;
+  ConsoleObserver co;
   final Thread mT;
 
-  public Miner( MainActivity act, String url, String auth, long scanTime, long retryPause, int nThread, double throttle) {
-    this.act = act;
+  public Miner(ConsoleObserver c, String url, String auth, long scanTime, long retryPause, int nThread, double throttle) {
+    co = c;
     if (nThread < 1) throw new IllegalArgumentException("Invalid number of threads: " + nThread);
     if (throttle <= 0.0 || throttle > 1.0)
       throw new IllegalArgumentException("Invalid throttle: " + throttle);
@@ -37,50 +37,46 @@ public class Miner implements Observer {
 
   private static final DateFormat logDateFormat = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss] ");
 
-  public void log(String str) {
-  	act.log_A(0, logDateFormat.format(new Date()) + str);
-  }
-
   public void update(Observable o, Object arg) {
     switch ((Worker.Notification) arg) {
     	case SYSTEM_ERROR:
-	      act.log_A(4, "System error");
+	      co.sendLog(4, "System error");
 	      mT.interrupt();
     		break;
     	case PERMISSION_ERROR:
-	      act.log_A(4, "Permission error");
+	      co.sendLog(4, "Permission error");
 	      mT.interrupt();
     		break;
     	case AUTHENTICATION_ERROR:
-	      act.log_A(4, "Invalid worker username or password");
+	      co.sendLog(4, "Invalid worker username or password");
 	      mT.interrupt();
     		break;
     	case CONNECTION_ERROR:
-      	act.log_A(4, "Connection error, retrying in " + worker.getRetryPause() / 1000L + " seconds");
+      	co.sendLog(4, "Connection error, retrying in " + worker.getRetryPause() / 1000L + " seconds");
     		break;
     	case COMMUNICATION_ERROR:
-      	act.log_A(4, "Communication error");
+      	co.sendLog(4, "Communication error");
     		break;
     	case LONG_POLLING_FAILED:
-      	act.log_A(3, "Long polling failed");
+      	co.sendLog(3, "Long polling failed");
     		break;
     	case LONG_POLLING_ENABLED:
-      	act.log_A(2, "Long polling activated");
+      	co.sendLog(2, "Long polling activated");
     		break;
     	case NEW_BLOCK_DETECTED:
-      	act.log_A(1, "LONGPOLL detected new block");
+      	co.sendLog(1, "LONGPOLL detected new block");
     		break;
     	case POW_TRUE:
-      	act.log_A(1, "PROOF OF WORK RESULT: true (yay!!!)");
+      	co.sendLog(1, "PROOF OF WORK RESULT: true (yay!!!)");
     		break;
     	case POW_FALSE:
-      	act.log_A(1, "PROOF OF WORK RESULT: false (booooo)");
+      	co.sendLog(1, "PROOF OF WORK RESULT: false (booooo)");
     		break;
     	case NEW_WORK:
     		if (lastWorkTime > 0L) {
 	        long hashes = worker.getHashes() - lastWorkHashes;
 	        float speed = (float) hashes / Math.max(1, System.currentTimeMillis() - lastWorkTime);
-	        log(String.format("%d hashes, %.2f khash/s", hashes, speed));
+	        co.sendLog(0, String.format("%d hashes, %.2f khash/s", hashes, speed));
 	      }
 	      lastWorkTime = System.currentTimeMillis();
 	      lastWorkHashes = worker.getHashes();

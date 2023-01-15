@@ -23,6 +23,13 @@ public class MainActivity extends Activity {
 
   EditText uri_value, username_value, password_value;
   Button mining_switch;
+  
+  ConsoleObserver co = new ConsoleObserver(new ConsoleObserver.ConsoleListener(){
+  	@Override
+  	public void receiveLog(int lvl, String msg) {
+  		log_A(lvl,msg);
+  	}
+  });
 
   @Override
   protected void onCreate(Bundle b) {
@@ -80,7 +87,7 @@ public class MainActivity extends Activity {
     long retryPause = 30000L;
 
     try {
-    	new Miner(this, uri, auth, scanTime, retryPause, nThread, throttle);
+    	new Miner(co, uri, auth, scanTime, retryPause, nThread, throttle);
     	
     } catch (Exception e) {
     	log_A(4, e.getMessage());

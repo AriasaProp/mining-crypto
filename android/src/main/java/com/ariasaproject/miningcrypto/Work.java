@@ -30,14 +30,6 @@ public class Work {
   private byte[] target; // little-endian
   private byte[] header; // big-endian
 
-  public Work(URL url, String auth) throws IOException {
-    this(url, url, auth);
-  }
-
-  public Work(URL url, URL mainUrl, String auth) throws IOException {
-    this((HttpURLConnection) url.openConnection(), url, auth);
-  }
-
   public Work(HttpURLConnection conn, URL mainUrl, String auth) throws IOException {
     String request = "{\"method\": \"getwork\", \"params\": [], \"id\":0}";
 

@@ -40,8 +40,10 @@ public class Worker extends Observable implements Runnable {
   private URL lpUrl = null;
   private HttpURLConnection lpConn = null;
   private AtomicLong hashes = new AtomicLong(0L);
+  final ConsoleObserver co;
 
-  public Worker(URL url, String auth, long scanMillis, long pauseMillis, int nThreads, double throttle) {
+  public Worker(ConsoleObserver c, URL url, String auth, long scanMillis, long pauseMillis, int nThreads, double throttle) {
+  	co = c;
     this.url = url;
     this.auth = auth;
     this.scanTime = scanMillis;
@@ -111,7 +113,7 @@ public class Worker extends Observable implements Runnable {
   private synchronized Work getWork() {
     while (running) {
       try {
-        return new Work(url, auth);
+        return new Work(url.openConnection(), auth);
       } catch (Exception e) {
         if (!running) break;
         setChanged();
@@ -128,6 +130,7 @@ public class Worker extends Observable implements Runnable {
         } else {
           notifyObservers(Notification.COMMUNICATION_ERROR);
         }
+        co.sendLog(4, e.getMessage());
         try {
           curWork = null;
           this.wait(retryPause);
