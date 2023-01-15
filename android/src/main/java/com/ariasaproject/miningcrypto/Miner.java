@@ -32,7 +32,7 @@ public class Miner implements Observer {
     mT = new Thread(worker);
     mT.setPriority(Thread.MIN_PRIORITY);
     mT.start();
-    co.sendlog(0, nThread + " miner threads started");
+    co.sendLog(0, nThread + " miner threads started");
   }
 
   private static final DateFormat logDateFormat = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss] ");

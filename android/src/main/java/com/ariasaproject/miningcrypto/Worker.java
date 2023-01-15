@@ -43,7 +43,7 @@ public class Worker extends Observable implements Runnable {
   final ConsoleObserver co;
 
   public Worker(ConsoleObserver c, URL url, String auth, long scanMillis, long pauseMillis, int nThreads, double throttle) {
-  	co = c;
+  	this.co = c;
     this.url = url;
     this.auth = auth;
     this.scanTime = scanMillis;
@@ -113,7 +113,7 @@ public class Worker extends Observable implements Runnable {
   private synchronized Work getWork() {
     while (running) {
       try {
-        return new Work(co, url.openConnection(), auth);
+        return new Work(url.openConnection(), url, auth);
       } catch (Exception e) {
         if (!running) break;
         setChanged();
