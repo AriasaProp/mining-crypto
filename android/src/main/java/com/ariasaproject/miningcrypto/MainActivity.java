@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.net.URL;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -75,35 +76,59 @@ public class MainActivity extends Activity {
 	  };
   }
   Thread m_mining_thread = null;
+  URL m_url;
   public void startstopMining(View v) {
-  	Button mine = (Button)v;
-		mine.setEnabled(false);
-		mine.setClickable(false);
-  	m_mining_thread = new Thread(new Runnable(){
-  		@Override
-  		public void run(){
-				co.sendLog(ConsoleMessage.Message.DEBUG, "Begin!");
-  			try {
-	  			int ct = 0;
-	  			while (ct < 10) {
-	  				co.sendLog(ConsoleMessage.Message.DEBUG, "Work data "+ ct);
-	  				ct++;
-	  				Thread.sleep(1000);
-	  			}
-  			} catch (InterruptedException e) {
-  				//ignored
-  				co.sendLog(ConsoleMessage.Message.DEBUG, "Interrupted!");
-  			}
-				co.sendLog(ConsoleMessage.Message.DEBUG, "Ended!");
-				MainActivity.this.runOnUiThread(new Runnable(){
-					@Override
-					public void run(){
-		  			mine.setEnabled(true);
-		  			mine.setClickable(true);
+  	if (m_mining_thread == null) {
+  		final Button mine = (Button)v;
+			mine.setEnabled(false);
+			mine.setClickable(false);
+			mine.setText("Starting ...");
+	  	m_mining_thread = new Thread(new Runnable() {
+	  		@Override
+	  		public void run(){
+					try {
+				  	String tmp_uri = uri_value.getText().toString();
+				  	String tmp_auth = String.format("%s:%s",
+				  		username_value.getText().toString(),
+				  		password_value.getText().toString());
+						m_url = new URI(uri).getURL();
+					} catch (Exception e) {
+						co.sendLog(ConsoleMessage.Message.ERROR, e.getMessage());
+						mine.setText("Mining Start");
+						mine.setEnabled(true);
+						mine.setClickable(true);
+						Thread.getCurrentThread().interrupt();
 					}
-				});
-  		}
-  	});
-  	m_mining_thread.start();
+					co.sendLog(ConsoleMessage.Message.DEBUG, "Begin!");
+	  			try {
+		  			int ct = 0;
+		  			while (ct < 10) {
+		  				Thread.sleep(1000);
+		  				co.sendLog(ConsoleMessage.Message.DEBUG, "Work data "+ ct);
+		  				ct++;
+		  			}
+	  			} catch (InterruptedException e) {
+	  				co.sendLog(ConsoleMessage.Message.DEBUG, "Interrupted!");
+	  			}
+					co.sendLog(ConsoleMessage.Message.DEBUG, "Ended!");
+					//thread Done!
+					MainActivity.this.runOnUiThread(new Runnable(){
+						@Override
+						public void run(){
+							mine.setText("Mining Start");
+			  			mine.setEnabled(true);
+			  			mine.setClickable(true);
+			  			m_mining_thread = null;
+						}
+					});
+	  		}
+	  	});
+	  	m_mining_thread.start();
+			mine.setEnabled(true);
+			mine.setClickable(true);
+			mine.setText("Mining Stop");
+  	} else {
+  		m_mining_thread.interupt();
+  	}
   }
 }
