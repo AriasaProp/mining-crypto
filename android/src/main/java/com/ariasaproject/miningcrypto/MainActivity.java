@@ -95,11 +95,13 @@ public class MainActivity extends Activity {
   				co.sendLog(ConsoleMessage.Message.DEBUG, "Interrupted!");
   			}
 				co.sendLog(ConsoleMessage.Message.DEBUG, "Ended!");
-				synchronized (MainActivity.this) {
-	  			mine.setEnabled(true);
-	  			mine.setClickable(true);
-				}
-  			
+				MainActivity.this.runOnUiThread(new Runnable(){
+					@Override
+					public void run(){
+		  			mine.setEnabled(true);
+		  			mine.setClickable(true);
+					}
+				});
   		}
   	});
   	m_mining_thread.start();
