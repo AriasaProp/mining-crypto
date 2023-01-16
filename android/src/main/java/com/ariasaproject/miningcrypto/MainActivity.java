@@ -91,7 +91,7 @@ public class MainActivity extends Activity {
 				  	String tmp_auth = String.format("%s:%s",
 				  		username_value.getText().toString(),
 				  		password_value.getText().toString());
-						m_url = new URI(uri).getURL();
+						m_url = new URI(tmp_uri).toURL();
 					} catch (Exception e) {
 						co.sendLog(ConsoleMessage.Message.ERROR, e.getMessage());
 						mine.setText("Mining Start");
