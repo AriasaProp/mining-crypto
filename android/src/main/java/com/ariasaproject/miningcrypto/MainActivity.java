@@ -97,7 +97,7 @@ public class MainActivity extends Activity {
 						mine.setText("Mining Start");
 						mine.setEnabled(true);
 						mine.setClickable(true);
-						Thread.getCurrentThread().interrupt();
+						Thread.currentThread().interrupt();
 					}
 					co.sendLog(ConsoleMessage.Message.DEBUG, "Begin!");
 	  			try {
@@ -128,7 +128,7 @@ public class MainActivity extends Activity {
 			mine.setClickable(true);
 			mine.setText("Mining Stop");
   	} else {
-  		m_mining_thread.interupt();
+  		m_mining_thread.interrupt();
   	}
   }
 }
