@@ -76,17 +76,16 @@ public class MainActivity extends Activity {
   }
   Thread m_mining_thread = null;
   public void startstopMining(View v) {
+  	Button mine = (Button)v;
+		mine.setEnabled(false);
+		mine.setClickable(false);
   	m_mining_thread = new Thread(new Runnable(){
   		@Override
   		public void run(){
-  			/*
-  			mining_switch.setEnabled(false);
-  			mining_switch.setClickable(false);
-  			*/
 				co.sendLog(ConsoleMessage.Message.DEBUG, "Begin!");
   			try {
 	  			int ct = 0;
-	  			while (ct < 100) {
+	  			while (ct < 10) {
 	  				co.sendLog(ConsoleMessage.Message.DEBUG, "Work data "+ ct);
 	  				ct++;
 	  				Thread.sleep(1000);
@@ -96,10 +95,11 @@ public class MainActivity extends Activity {
   				co.sendLog(ConsoleMessage.Message.DEBUG, "Interrupted!");
   			}
 				co.sendLog(ConsoleMessage.Message.DEBUG, "Ended!");
-				/*
-  			mining_switch.setEnabled(true);
-  			mining_switch.setClickable(true);
-  			*/
+				synchronized (MainActivity.this) {
+	  			mine.setEnabled(true);
+	  			mine.setClickable(true);
+				}
+  			
   		}
   	});
   	m_mining_thread.start();
