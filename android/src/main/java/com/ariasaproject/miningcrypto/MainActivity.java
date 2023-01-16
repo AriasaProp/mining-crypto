@@ -33,7 +33,7 @@ public class MainActivity extends Activity {
     password_value = (EditText) findViewById(R.id.password_value);
   	final ViewGroup ctr = (ViewGroup) findViewById(R.id.log_container);
   	final int j = ctr.getChildCount();
-	  final DateFormat logDateFormat = new SimpleDateFormat("HH:mm:ss =>");
+	  final DateFormat logDateFormat = new SimpleDateFormat("HH:mm:ss|");
     co = new ConsoleMessage() {
 	  	@Override
 	  	public void sendLog(ConsoleMessage.Message lvl, String msg) {
@@ -75,11 +75,14 @@ public class MainActivity extends Activity {
 	  };
   }
   Thread m_mining_thread = null;
-  public void startstopMining(final View v) {
+  public void startstopMining(View v) {
   	m_mining_thread = new Thread(new Runnable(){
   		@Override
   		public void run(){
+  			/*
   			mining_switch.setEnabled(false);
+  			mining_switch.setClickable(false);
+  			*/
 				co.sendLog(ConsoleMessage.Message.DEBUG, "Begin!");
   			try {
 	  			int ct = 0;
@@ -93,7 +96,10 @@ public class MainActivity extends Activity {
   				co.sendLog(ConsoleMessage.Message.DEBUG, "Interrupted!");
   			}
 				co.sendLog(ConsoleMessage.Message.DEBUG, "Ended!");
+				/*
   			mining_switch.setEnabled(true);
+  			mining_switch.setClickable(true);
+  			*/
   		}
   	});
   	m_mining_thread.start();
