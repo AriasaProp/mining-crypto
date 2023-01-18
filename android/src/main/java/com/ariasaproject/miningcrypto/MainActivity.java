@@ -75,7 +75,7 @@ public class MainActivity extends Activity {
 			vt.setTextColor(console_logs_state[0]);
 		}
 	  };
-	if (b.containsKey(PREF_URI)) {
+	if ((b != null) && b.containsKey(PREF_URI)) {
 		uri_value.setText(b.getString(PREF_URI));
 		username_value.setText(b.getString(PREF_USERNAME));
 		password_value.setText(b.getString(PREF_PASSWORD));
