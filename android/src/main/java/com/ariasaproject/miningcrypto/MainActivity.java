@@ -21,14 +21,12 @@ public class MainActivity extends Activity {
   static final String PREF_USERNAME = "Username";
   static final String PREF_PASSWORD = "Password";
   static final String PREF_LOGS = "Logs";
-  static final String PREF_LOGS_STATE = "Logs_State";
+  static final String  = "Logs_State";
 
   EditText uri_value, username_value, password_value;
   Button mining_switch;
   
   ConsoleMessage co;
-  ArrayList<String> console_logs;
-  int[] console_logs = new int[20];
   
   @Override
   protected void onCreate(Bundle b) {
@@ -40,95 +38,63 @@ public class MainActivity extends Activity {
     password_value = (EditText) findViewById(R.id.password_value);
   	final ViewGroup ctr = (ViewGroup) findViewById(R.id.log_container);
   	final int j = ctr.getChildCount();
+	final ArrayList<String> console_logs;
+	final int[] console_logs_state = new int[20];
     co = new ConsoleMessage() {
 	  	final DateFormat logDateFormat = new SimpleDateFormat("HH:mm:ss|");
 	  	@Override
 	  	public void sendLog(ConsoleMessage.Message lvl, String msg) {
-	  		synchronized (MainActivity.this) {
-			  	int i = 0;
-			  	TextView vt = (TextView)ctr.getChildAt(i);
-			  	CharSequence t1 = vt.getText(), t2;
-			  	int c1 = vt.getCurrentTextColor(), c2;
-			  	vt.setText(logDateFormat.format(new Date()) + msg);
-		  		switch (lvl) {
-		  			default:
-		  			case DEBUG:
-			  			vt.setTextColor(0xffa3a3a3);
-		  				break;
-		  			case INFO:
-			  			vt.setTextColor(0xffffffff);
-		  				break;
-		  			case SUCCESS:
-			  			vt.setTextColor(0xff00ff00);
-		  				break;
-		  			case WARNING:
-			  			vt.setTextColor(0xffffff00);
-		  				break;
-		  			case ERROR:
-			  			vt.setTextColor(0xffff0000);
-		  				break;
-		  		}
-			  	while(++i < j) {
-					  vt = (TextView)ctr.getChildAt(i);
-			  		t2 = vt.getText();
-			  		c2 = vt.getCurrentTextColor();
-			  		vt.setText(t1);
-					  vt.setTextColor(c1);
-					  t1 = t2;
-					  c1 = c2;
-					}
-	  		}
-	  	}
+	  		update_logs(lvl, msg);
+		}
 	  };
-	  if (b.containsKey(PREF_URI)) {
-	  	uri_value.setText(b.getString(PREF_URI));
-	  	username_value.setText(b.getString(PREF_USERNAME));
-	  	password_value.setText(b.getString(PREF_PASSWORD));
-	  	console_logs = b.getStringArrayList(PREF_LOGS);
-	  	console_logs = b.getIntegerArray(PREF_LOGS);
-	  } else {
-	  	console_logs = new ArrayList<String>();
-	  	for (int i = 0; i < 20; i++) {
-	  		console_logs.add("None");
-	  	}
-	  }
+	if (b.containsKey(PREF_URI)) {
+		uri_value.setText(b.getString(PREF_URI));
+		username_value.setText(b.getString(PREF_USERNAME));
+		password_value.setText(b.getString(PREF_PASSWORD));
+		console_logs = b.getStringArrayList(PREF_LOGS);
+		console_logs_state = b.getIntegerArray(PREF_LOGS_STATE);
+	} else {
+		console_logs = new ArrayList<String>(20);
+		for (int i = 0; i < 20; i++) {
+			console_logs.add("None");
+			console_logs_state[i] = 0xffa3a3a3;
+		}
+	}
+	update_logs(ConsoleMessage.Message.DEBUG, "Login App!");
   }
   
-  synchronized void update_logs(){
-  	int i = 0;
-			  	TextView vt = (TextView)ctr.getChildAt(i);
-			  	CharSequence t1 = vt.getText(), t2;
-			  	int c1 = vt.getCurrentTextColor(), c2;
-			  	vt.setText(logDateFormat.format(new Date()) + msg);
-		  		switch (lvl) {
-		  			default:
-		  			case DEBUG:
-			  			vt.setTextColor(0xffa3a3a3);
-		  				break;
-		  			case INFO:
-			  			vt.setTextColor(0xffffffff);
-		  				break;
-		  			case SUCCESS:
-			  			vt.setTextColor(0xff00ff00);
-		  				break;
-		  			case WARNING:
-			  			vt.setTextColor(0xffffff00);
-		  				break;
-		  			case ERROR:
-			  			vt.setTextColor(0xffff0000);
-		  				break;
-		  		}
-			  	while(++i < j) {
-					  vt = (TextView)ctr.getChildAt(i);
-			  		t2 = vt.getText();
-			  		c2 = vt.getCurrentTextColor();
-			  		vt.setText(t1);
-					  vt.setTextColor(c1);
-					  t1 = t2;
-					  c1 = c2;
-					}
-  }
-  
+synchronized void update_logs(ConsoleMessage.Message lvl, String msg){
+	for (int i = 19; i > 0; i--) {
+		console_logs.set(i, console_logs.get(i-1));
+		console_logs_state[i] = console_logs_state[i-1];
+		TextView vt = (TextView)ctr.getChildAt(i);
+		vt.setText(console_logs.get(i));
+		vt.setTextColor(console_logs_state[i]);
+	}
+	console_logs.set(0, logDateFormat.format(new Date()) + msg);
+	switch (lvl) {
+		default:
+		case DEBUG:
+			console_logs_state[0] = 0xffa3a3a3;
+			break;
+		case INFO:
+			console_logs_state[0] = 0xffffffff;
+			break;
+		case SUCCESS:
+			console_logs_state[0] = 0xff00ff00;
+			break;
+		case WARNING:
+			console_logs_state[0] = 0xffffff00;
+			break;
+		case ERROR:
+			console_logs_state[0] = 0xffff0000;
+			break;
+	}
+	TextView vt = (TextView)ctr.getChildAt(0);
+	vt.setText(console_logs.get(0));
+	vt.setTextColor(console_logs_state[0]);
+}
+
   @Override
   protected void onSaveInstanceState(Bundle b) {
   	super.onSaveInstanceState(b);
@@ -140,12 +106,11 @@ public class MainActivity extends Activity {
   Thread m_mining_thread = null;
   URL m_url;
   public void startstopMining(View v) {
-  	
   	if (m_mining_thread == null) {
   		final Button mine = (Button)v;
-			mine.setEnabled(false);
-			mine.setClickable(false);
-			mine.setText("Starting ...");
+		mine.setEnabled(false);
+		mine.setClickable(false);
+		mine.setText("Starting ...");
 	  	m_mining_thread = new Thread(new Runnable() {
 	  		@Override
 	  		public void run(){
@@ -187,9 +152,9 @@ public class MainActivity extends Activity {
 	  		}
 	  	});
 	  	m_mining_thread.start();
-			mine.setEnabled(true);
-			mine.setClickable(true);
-			mine.setText("Mining Stop");
+		mine.setEnabled(true);
+		mine.setClickable(true);
+		mine.setText("Mining Stop");
   	} else {
   		m_mining_thread.interrupt();
   	}
