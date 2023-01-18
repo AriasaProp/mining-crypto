@@ -21,12 +21,14 @@ public class MainActivity extends Activity {
   static final String PREF_USERNAME = "Username";
   static final String PREF_PASSWORD = "Password";
   static final String PREF_LOGS = "Logs";
-  static final String  = "Logs_State";
+  static final String PREF_LOGS_STATE = "Logs_State";
 
   EditText uri_value, username_value, password_value;
   Button mining_switch;
   
   ConsoleMessage co;
+  ArrayList<String> console_logs;
+  int[] console_logs_state = new int[20];
   
   @Override
   protected void onCreate(Bundle b) {
@@ -37,14 +39,40 @@ public class MainActivity extends Activity {
     username_value = (EditText) findViewById(R.id.username_value);
     password_value = (EditText) findViewById(R.id.password_value);
   	final ViewGroup ctr = (ViewGroup) findViewById(R.id.log_container);
-  	final int j = ctr.getChildCount();
-	final ArrayList<String> console_logs;
-	final int[] console_logs_state = new int[20];
     co = new ConsoleMessage() {
 	  	final DateFormat logDateFormat = new SimpleDateFormat("HH:mm:ss|");
 	  	@Override
 	  	public void sendLog(ConsoleMessage.Message lvl, String msg) {
-	  		update_logs(lvl, msg);
+			TextView vt;
+	  		for (int i = 19; i > 0; i--) {
+				console_logs.set(i, console_logs.get(i-1));
+				console_logs_state[i] = console_logs_state[i-1];
+				vt = (TextView)ctr.getChildAt(i);
+				vt.setText(console_logs.get(i));
+				vt.setTextColor(console_logs_state[i]);
+			}
+			console_logs.set(0, logDateFormat.format(new Date()) + msg);
+			switch (lvl) {
+				default:
+				case DEBUG:
+					console_logs_state[0] = 0xffa3a3a3;
+					break;
+				case INFO:
+					console_logs_state[0] = 0xffffffff;
+					break;
+				case SUCCESS:
+					console_logs_state[0] = 0xff00ff00;
+					break;
+				case WARNING:
+					console_logs_state[0] = 0xffffff00;
+					break;
+				case ERROR:
+					console_logs_state[0] = 0xffff0000;
+					break;
+			}
+			vt = (TextView)ctr.getChildAt(0);
+			vt.setText(console_logs.get(0));
+			vt.setTextColor(console_logs_state[0]);
 		}
 	  };
 	if (b.containsKey(PREF_URI)) {
@@ -60,41 +88,9 @@ public class MainActivity extends Activity {
 			console_logs_state[i] = 0xffa3a3a3;
 		}
 	}
-	update_logs(ConsoleMessage.Message.DEBUG, "Login App!");
+	co.sendLog(ConsoleMessage.Message.DEBUG, "Login App!");
   }
   
-synchronized void update_logs(ConsoleMessage.Message lvl, String msg){
-	for (int i = 19; i > 0; i--) {
-		console_logs.set(i, console_logs.get(i-1));
-		console_logs_state[i] = console_logs_state[i-1];
-		TextView vt = (TextView)ctr.getChildAt(i);
-		vt.setText(console_logs.get(i));
-		vt.setTextColor(console_logs_state[i]);
-	}
-	console_logs.set(0, logDateFormat.format(new Date()) + msg);
-	switch (lvl) {
-		default:
-		case DEBUG:
-			console_logs_state[0] = 0xffa3a3a3;
-			break;
-		case INFO:
-			console_logs_state[0] = 0xffffffff;
-			break;
-		case SUCCESS:
-			console_logs_state[0] = 0xff00ff00;
-			break;
-		case WARNING:
-			console_logs_state[0] = 0xffffff00;
-			break;
-		case ERROR:
-			console_logs_state[0] = 0xffff0000;
-			break;
-	}
-	TextView vt = (TextView)ctr.getChildAt(0);
-	vt.setText(console_logs.get(0));
-	vt.setTextColor(console_logs_state[0]);
-}
-
   @Override
   protected void onSaveInstanceState(Bundle b) {
   	super.onSaveInstanceState(b);
@@ -102,6 +98,7 @@ synchronized void update_logs(ConsoleMessage.Message lvl, String msg){
   	b.putString(PREF_USERNAME, username_value.getText());
   	b.putString(PREF_PASSWORD, password_value.getText());
   	b.putStringArrayList(PREF_LOGS, console_logs);
+  	b.putIntegerArray(PREF_LOGS_STATE, console_logs_state);
   }
   Thread m_mining_thread = null;
   URL m_url;
