@@ -80,7 +80,7 @@ public class MainActivity extends Activity {
 		username_value.setText(b.getString(PREF_USERNAME));
 		password_value.setText(b.getString(PREF_PASSWORD));
 		console_logs = b.getStringArrayList(PREF_LOGS);
-		console_logs_state = b.getIntegerArray(PREF_LOGS_STATE);
+		console_logs_state = b.getIntArray(PREF_LOGS_STATE);
 	} else {
 		console_logs = new ArrayList<String>(20);
 		for (int i = 0; i < 20; i++) {
@@ -94,11 +94,11 @@ public class MainActivity extends Activity {
   @Override
   protected void onSaveInstanceState(Bundle b) {
   	super.onSaveInstanceState(b);
-  	b.putString(PREF_URI, uri_value.getText());
-  	b.putString(PREF_USERNAME, username_value.getText());
-  	b.putString(PREF_PASSWORD, password_value.getText());
+  	b.putString(PREF_URI, uri_value.getText().toString());
+  	b.putString(PREF_USERNAME, username_value.getText().toString());
+  	b.putString(PREF_PASSWORD, password_value.getText().toString());
   	b.putStringArrayList(PREF_LOGS, console_logs);
-  	b.putIntegerArray(PREF_LOGS_STATE, console_logs_state);
+  	b.putIntArray(PREF_LOGS_STATE, console_logs_state);
   }
   Thread m_mining_thread = null;
   URL m_url;
