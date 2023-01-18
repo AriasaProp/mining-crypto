@@ -37,8 +37,7 @@ public class MainActivity extends Activity {
     username_value = (EditText) findViewById(R.id.username_value);
     password_value = (EditText) findViewById(R.id.password_value);
     final ViewGroup ctr = (ViewGroup) findViewById(R.id.log_container);
-    co =
-        new ConsoleMessage() {
+    co = new ConsoleMessage() {
           final DateFormat logDateFormat = new SimpleDateFormat("HH:mm:ss|");
 
           @Override
@@ -75,6 +74,7 @@ public class MainActivity extends Activity {
             vt.setTextColor(console_logs_state[0]);
           }
         };
+    /*
     if ((b != null) && b.containsKey(PREF_URI)) {
       uri_value.setText(b.getString(PREF_URI));
       username_value.setText(b.getString(PREF_USERNAME));
@@ -88,17 +88,20 @@ public class MainActivity extends Activity {
         console_logs_state[i] = 0xffa3a3a3;
       }
     }
+    */
     co.sendLog(ConsoleMessage.Message.DEBUG, "Login App!");
   }
 
   @Override
   protected void onSaveInstanceState(Bundle b) {
     super.onSaveInstanceState(b);
+    /*
     b.putString(PREF_URI, uri_value.getText().toString());
     b.putString(PREF_USERNAME, username_value.getText().toString());
     b.putString(PREF_PASSWORD, password_value.getText().toString());
     b.putStringArrayList(PREF_LOGS, console_logs);
     b.putIntArray(PREF_LOGS_STATE, console_logs_state);
+    */
   }
 
   Thread m_mining_thread = null;
