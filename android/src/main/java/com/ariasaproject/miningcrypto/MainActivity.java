@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Date;
+import java.util.ArrayList;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.net.URL;
@@ -19,11 +20,16 @@ public class MainActivity extends Activity {
   static final String PREF_URI = "Uri";
   static final String PREF_USERNAME = "Username";
   static final String PREF_PASSWORD = "Password";
+  static final String PREF_LOGS = "Logs";
+  static final String PREF_LOGS_STATE = "Logs_State";
 
   EditText uri_value, username_value, password_value;
   Button mining_switch;
   
   ConsoleMessage co;
+  ArrayList<String> console_logs;
+  int[] console_logs = new int[20];
+  
   @Override
   protected void onCreate(Bundle b) {
     setContentView(R.layout.main);
@@ -34,8 +40,8 @@ public class MainActivity extends Activity {
     password_value = (EditText) findViewById(R.id.password_value);
   	final ViewGroup ctr = (ViewGroup) findViewById(R.id.log_container);
   	final int j = ctr.getChildCount();
-	  final DateFormat logDateFormat = new SimpleDateFormat("HH:mm:ss|");
     co = new ConsoleMessage() {
+	  	final DateFormat logDateFormat = new SimpleDateFormat("HH:mm:ss|");
 	  	@Override
 	  	public void sendLog(ConsoleMessage.Message lvl, String msg) {
 	  		synchronized (MainActivity.this) {
@@ -74,10 +80,67 @@ public class MainActivity extends Activity {
 	  		}
 	  	}
 	  };
+	  if (b.containsKey(PREF_URI)) {
+	  	uri_value.setText(b.getString(PREF_URI));
+	  	username_value.setText(b.getString(PREF_USERNAME));
+	  	password_value.setText(b.getString(PREF_PASSWORD));
+	  	console_logs = b.getStringArrayList(PREF_LOGS);
+	  	console_logs = b.getIntegerArray(PREF_LOGS);
+	  } else {
+	  	console_logs = new ArrayList<String>();
+	  	for (int i = 0; i < 20; i++) {
+	  		console_logs.add("None");
+	  	}
+	  }
+  }
+  
+  synchronized void update_logs(){
+  	int i = 0;
+			  	TextView vt = (TextView)ctr.getChildAt(i);
+			  	CharSequence t1 = vt.getText(), t2;
+			  	int c1 = vt.getCurrentTextColor(), c2;
+			  	vt.setText(logDateFormat.format(new Date()) + msg);
+		  		switch (lvl) {
+		  			default:
+		  			case DEBUG:
+			  			vt.setTextColor(0xffa3a3a3);
+		  				break;
+		  			case INFO:
+			  			vt.setTextColor(0xffffffff);
+		  				break;
+		  			case SUCCESS:
+			  			vt.setTextColor(0xff00ff00);
+		  				break;
+		  			case WARNING:
+			  			vt.setTextColor(0xffffff00);
+		  				break;
+		  			case ERROR:
+			  			vt.setTextColor(0xffff0000);
+		  				break;
+		  		}
+			  	while(++i < j) {
+					  vt = (TextView)ctr.getChildAt(i);
+			  		t2 = vt.getText();
+			  		c2 = vt.getCurrentTextColor();
+			  		vt.setText(t1);
+					  vt.setTextColor(c1);
+					  t1 = t2;
+					  c1 = c2;
+					}
+  }
+  
+  @Override
+  protected void onSaveInstanceState(Bundle b) {
+  	super.onSaveInstanceState(b);
+  	b.putString(PREF_URI, uri_value.getText());
+  	b.putString(PREF_USERNAME, username_value.getText());
+  	b.putString(PREF_PASSWORD, password_value.getText());
+  	b.putStringArrayList(PREF_LOGS, console_logs);
   }
   Thread m_mining_thread = null;
   URL m_url;
   public void startstopMining(View v) {
+  	
   	if (m_mining_thread == null) {
   		final Button mine = (Button)v;
 			mine.setEnabled(false);
